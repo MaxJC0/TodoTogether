@@ -5,7 +5,7 @@ import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
 import { ComponentProps } from 'react';
 import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
 
-type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof MaterialIcons>['name']>;
+type IconMapping = Partial<Record<SymbolViewProps['name'], ComponentProps<typeof MaterialIcons>['name']>>;
 type IconSymbolName = keyof typeof MAPPING;
 
 /**
@@ -17,7 +17,7 @@ const MAPPING = {
   'house.fill': 'home',
   'archivebox.fill': 'archive',
   'person.fill': 'person',
-  'gear.fill': 'settings',
+  'gearshape.fill': 'settings',
 } as IconMapping;
 
 /**
