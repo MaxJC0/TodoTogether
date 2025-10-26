@@ -1,6 +1,6 @@
-import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/themed-text";
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 type Props = {
   id: string;
