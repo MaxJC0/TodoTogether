@@ -1,37 +1,54 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { ThemedText } from "@/components/themed-text";
+import { Ionicons } from "@expo/vector-icons";
+
+type Board = { id: string; name: string };
 
 type ButtonPlusProps = {
-	onPress: () => void;
+	boards: Board[];
+	setBoards: React.Dispatch<React.SetStateAction<Board[]>>;
 	label?: string;
 	style?: StyleProp<ViewStyle>;
 };
 
-export default function ButtonPlus({ onPress, label = "Create", style }: ButtonPlusProps) {
-	return (
+export default function ButtonPlus({ boards, setBoards, label = "Create", style }: ButtonPlusProps) {
+    const handleCreate = () => {
+        const n = boards.length + 1;
+        setBoards((prev) => [...prev, { id: String(Date.now()), name: `Board ${n}` }]);
+    };
+
+    return (
 		<TouchableOpacity
-			accessibilityRole="button"
-			accessibilityLabel={label}
-			onPress={onPress}
-			style={[styles.btn, styles.primary, style]}
-		>
-			<ThemedText style={styles.text}>{label}</ThemedText>
-		</TouchableOpacity>
-	);
+            accessibilityRole="button"
+            accessibilityLabel={label}
+            onPress={handleCreate}
+            style={[styles.btn, styles.primary, style]}
+        >
+			<Ionicons name="add" size={28} color="#fff" />
+        </TouchableOpacity>
+    );
 }
 
 const styles = StyleSheet.create({
 	btn: {
-		paddingVertical: 10,
-		paddingHorizontal: 14,
-		borderRadius: 6,
+		width: 50,
+		height: 50,
+		borderRadius: 28,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	primary: {
-		backgroundColor: "#3b82f6",
+		backgroundColor: "rgba(255,255,255,0.06)",
+		borderWidth: 1,
+		borderColor: "#fff",
 	},
 	text: {
 		color: "#fff",
+		fontSize: 28,
+		lineHeight: 28,
+		textAlign: "center",
+		textAlignVertical: "center",
+		includeFontPadding: false as any,
 	},
 });
 

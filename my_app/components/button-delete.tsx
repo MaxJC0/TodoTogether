@@ -2,27 +2,40 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 
+type Board = { id: string; name: string };
+type SelectedMap = Record<string, boolean>;
+
 type ButtonDeleteProps = {
-	onPress: () => void;
-	disabled?: boolean;
+	selected: SelectedMap;
+	setBoards: React.Dispatch<React.SetStateAction<Board[]>>;
+	setSelected: React.Dispatch<React.SetStateAction<SelectedMap>>;
 	label?: string;
 	style?: StyleProp<ViewStyle>;
 };
 
 export default function ButtonDelete({
-	onPress,
-	disabled = false,
+	selected,
+	setBoards,
+	setSelected,
 	label = "Delete marked",
 	style,
 }: ButtonDeleteProps) {
+	const hasSelected = Object.values(selected).some(Boolean);
+
+	const handleDelete = () => {
+		if (!hasSelected) return;
+		setBoards((prev) => prev.filter((b) => !selected[b.id]));
+		setSelected({});
+	};
+
 	return (
 		<TouchableOpacity
 			accessibilityRole="button"
 			accessibilityLabel={label}
-			accessibilityState={{ disabled }}
-			onPress={disabled ? undefined : onPress}
-			disabled={disabled}
-			style={[styles.btn, styles.danger, disabled && styles.disabled, style]}
+			accessibilityState={{ disabled: !hasSelected }}
+			onPress={hasSelected ? handleDelete : undefined}
+			disabled={!hasSelected}
+			style={[styles.btn, styles.danger, !hasSelected && styles.disabled, style]}
 		>
 			<ThemedText style={styles.text}>{label}</ThemedText>
 		</TouchableOpacity>

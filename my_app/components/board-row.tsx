@@ -6,7 +6,6 @@ type Props = {
   id: string;
   name: string;
   isFavorite?: boolean;
-  selected?: boolean;
   onToggleSelect?: (id: string) => void;
   onToggleFavorite?: (id: string) => void;
   onEdit?: (id: string) => void;
@@ -17,7 +16,6 @@ export default function BoardRow({
   id,
   name,
   isFavorite = false,
-  selected = false,
   onToggleSelect = () => {},
   onToggleFavorite = () => {},
   onEdit = () => {},
@@ -25,14 +23,6 @@ export default function BoardRow({
 }: Props) {
   return (
     <View style={styles.row}>
-      <TouchableOpacity
-        accessibilityLabel={`select-${id}`}
-        onPress={() => onToggleSelect(id)}
-        style={styles.checkbox}
-      >
-        <ThemedText>{selected ? "☑" : "☐"}</ThemedText>
-      </TouchableOpacity>
-
       <ThemedText style={styles.boardName}>{name}</ThemedText>
 
       <View style={styles.actions}>
@@ -54,7 +44,9 @@ export default function BoardRow({
 
         <TouchableOpacity
           accessibilityLabel={`drag-${id}`}
-          onPress={() => onDrag(id)}
+          onLongPress={() => onDrag(id)}
+          delayLongPress={150}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           style={styles.iconButton}
         >
           <ThemedText>☰</ThemedText>
@@ -71,8 +63,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     paddingHorizontal: 12,
-    backgroundColor: "transparent",
-    borderRadius: 6,
+    backgroundColor: "rgba(255,255,255,0.06)",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    marginVertical: 6,
   },
   checkbox: {
     marginRight: 10,
