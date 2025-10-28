@@ -1,6 +1,9 @@
-import { ThemedText } from "@/components/themed-text";
 import React from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { ThemedText } from "@/components/themed-text";
+import { StyleSheet, View } from "react-native";
+import ButtonFavorite from "@/components/button-favorite";
+import ButtonEditBoard from "@/components/button-edit_board";
+import ButtonDrag from "@/components/button-drag";
 
 type Props = {
   id: string;
@@ -26,31 +29,19 @@ export default function BoardRow({
       <ThemedText style={styles.boardName}>{name}</ThemedText>
 
       <View style={styles.actions}>
-        <TouchableOpacity
+        <ButtonFavorite
           accessibilityLabel={`favorite-${id}`}
+          isFavorite={isFavorite}
           onPress={() => onToggleFavorite(id)}
-          style={styles.iconButton}
-        >
-          <ThemedText>{isFavorite ? "❤️" : "♡"}</ThemedText>
-        </TouchableOpacity>
-
-        <TouchableOpacity
+        />
+        <ButtonEditBoard
           accessibilityLabel={`edit-${id}`}
           onPress={() => onEdit(id)}
-          style={styles.iconButton}
-        >
-          <ThemedText>✏️</ThemedText>
-        </TouchableOpacity>
-
-        <TouchableOpacity
+        />
+        <ButtonDrag
           accessibilityLabel={`drag-${id}`}
           onLongPress={() => onDrag(id)}
-          delayLongPress={150}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          style={styles.iconButton}
-        >
-          <ThemedText>☰</ThemedText>
-        </TouchableOpacity>
+        />
       </View>
     </View>
   );
@@ -69,11 +60,6 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     marginVertical: 6,
   },
-  checkbox: {
-    marginRight: 10,
-    paddingVertical: 4,
-    paddingHorizontal: 4,
-  },
   boardName: {
     flex: 1,
     marginRight: 12,
@@ -81,10 +67,5 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: "row",
     alignItems: "center",
-  },
-  iconButton: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    marginLeft: 6,
   },
 });

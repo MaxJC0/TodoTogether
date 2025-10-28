@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import BoardList from "@/components/board-list";
@@ -21,23 +21,23 @@ export default function TestScreen() {
   <ThemedView style={styles.container}>
   <ThemedText type="title" style={styles.title}>Your Boards</ThemedText>
 
-      <BoardList
-        boards={boards}
-        setBoards={setBoards}
-        searchQuery={searchQuery}
-      />
+      <ScrollView style={styles.listContainer}>
+        <BoardList
+          boards={boards}
+          setBoards={setBoards}
+          searchQuery={searchQuery}
+        />
+      </ScrollView>
 
       {/* Persistent bottom search bar */}
-      <View style={styles.bottomBar}>
-        <View style={styles.searchContainer}>
-          <TextInput
-            placeholder="Search boards..."
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            style={styles.searchInput}
-            placeholderTextColor="#aaa"
-          />
-        </View>
+      <View style={styles.searchContainer}>
+        <TextInput
+          placeholder="Search boards..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={styles.searchInput}
+          placeholderTextColor="#aaa"
+        />
       </View>
     </ThemedView>
     </GestureHandlerRootView>
@@ -53,21 +53,9 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 8,
-    textAlign: "left",
+
   },
-  list: {
-    width: "100%",
-  },
-  footer: {
-    marginTop: 16,
-  },
-  footerButtons: {
-    gap: 10,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginBottom: 12,
-  },
-  searchContainer: {
+  listContainer: {
     width: "100%",
   },
   searchInput: {
@@ -80,19 +68,9 @@ const styles = StyleSheet.create({
     color: "#fff",
     backgroundColor: "rgba(255,255,255,0.06)",
   },
-  bottomBar: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
+  searchContainer: {
     width: "100%",
     paddingHorizontal: 24,
-    paddingBottom: 16,
-  },
-  bottomRow: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: 10,
-    marginBottom: 12,
-  },
+    paddingVertical: 16,
+  }
 });

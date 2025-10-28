@@ -4,6 +4,7 @@ import DraggableFlatList from "react-native-draggable-flatlist";
 import { ThemedText } from "@/components/themed-text";
 import ButtonPlus from "@/components/button-plus";
 import BoardRow from "@/components/board-row";
+import EditBoardModal from "@/app/modals/board-edit-modal";
 
 export type Board = { id: string; name: string };
 
@@ -15,6 +16,11 @@ type Props = {
 
 export default function BoardList({ boards, setBoards, searchQuery }: Props) {
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+  const [editingBoardId, setEditingBoardId] = useState<string | null>(null);
+  const editingBoard = useMemo(
+    () => boards.find((b) => b.id === editingBoardId) ?? null,
+    [boards, editingBoardId]
+  );
   const filteredBoards = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     if (!q) return boards;
@@ -36,6 +42,21 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
   const toggleFavorite = useCallback((id: string) => {
     setFavorites((prev) => ({ ...prev, [id]: !prev[id] }));
   }, []);
+
+  const startEdit = useCallback((id: string) => {
+    setEditingBoardId(id);
+  }, []);
+
+  const handleSaveEdit = useCallback(
+    (newName: string) => {
+      if (!editingBoardId) return;
+      setBoards((prev) => prev.map((b) => (b.id === editingBoardId ? { ...b, name: newName } : b)));
+      setEditingBoardId(null);
+    },
+    [editingBoardId, setBoards]
+  );
+
+  const cancelEdit = useCallback(() => setEditingBoardId(null), []);
 
   const renderItem = useCallback(
     ({ item, index, drag }: { item: Board; index: number; drag: () => void }) => {
@@ -59,7 +80,7 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
             name={item.name}
             isFavorite={!!favorites[item.id]}
             onToggleFavorite={toggleFavorite}
-            onEdit={() => {}}
+            onEdit={startEdit}
             onDrag={() => drag()}
           />
         </View>
@@ -116,22 +137,31 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
   }, [favorites]);
 
   return (
-    <DraggableFlatList
-      data={combinedData}
-      keyExtractor={(item: Board) => item.id}
-      renderItem={renderItem as any}
-      style={styles.list}
-      contentContainerStyle={styles.listContent}
-      onDragBegin={onDragBegin}
-      onDragEnd={onDragEnd}
-      activationDistance={12}
-      showsVerticalScrollIndicator={false}
-      ListFooterComponent={
-        <View style={styles.footer}>
-          <ButtonPlus boards={boards} setBoards={setBoards} />
-        </View>
-      }
-    />
+    <>
+      <DraggableFlatList
+        data={combinedData}
+        keyExtractor={(item: Board) => item.id}
+        renderItem={renderItem as any}
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        onDragBegin={onDragBegin}
+        onDragEnd={onDragEnd}
+        activationDistance={12}
+        showsVerticalScrollIndicator={true}
+        ListFooterComponent={
+          <View style={styles.footer}>
+            <ButtonPlus boards={boards} setBoards={setBoards} />
+          </View>
+        }
+      />
+
+      <EditBoardModal
+        visible={!!editingBoardId}
+        initialName={editingBoard?.name ?? ""}
+        onSave={handleSaveEdit}
+        onCancel={cancelEdit}
+      />
+    </>
   );
 }
 
@@ -139,9 +169,9 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     width: "100%",
+    height: "100%",
   },
   listContent: {
-    backgroundColor: "rgba(253, 23, 23, 1)",
     paddingVertical: 8,
     paddingBottom: 16,
   },
