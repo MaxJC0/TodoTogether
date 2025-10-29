@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
-import { GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import BoardList from "@/components/board-list";
@@ -21,13 +21,14 @@ export default function TestScreen() {
   <ThemedView style={styles.container}>
   <ThemedText type="title" style={styles.title}>Your Boards</ThemedText>
 
-      <ScrollView style={styles.listContainer}>
+      {/* Use the FlatList inside BoardList as the primary scroll container */}
+      <View style={styles.listContainer}>
         <BoardList
           boards={boards}
           setBoards={setBoards}
           searchQuery={searchQuery}
         />
-      </ScrollView>
+      </View>
 
       {/* Persistent bottom search bar */}
       <View style={styles.searchContainer}>
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
 
   },
   listContainer: {
+    flex: 1,
     width: "100%",
   },
   searchInput: {
