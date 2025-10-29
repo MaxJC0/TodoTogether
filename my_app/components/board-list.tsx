@@ -6,7 +6,12 @@ import ButtonPlus from "@/components/button-plus";
 import BoardRow from "@/components/board-row";
 import EditBoardModal from "@/app/modals/board-edit-modal";
 
-export type Board = { id: string; name: string };
+export type Board = {
+  id: string;
+  name: string;
+  members?: string[];
+  notificationsEnabled?: boolean;
+};
 
 type Props = {
   boards: Board[];
@@ -48,9 +53,15 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
   }, []);
 
   const handleSaveEdit = useCallback(
-    (newName: string) => {
+    (data: { name: string; members: string[]; notifications: boolean }) => {
       if (!editingBoardId) return;
-      setBoards((prev) => prev.map((b) => (b.id === editingBoardId ? { ...b, name: newName } : b)));
+      setBoards((prev) =>
+        prev.map((b) =>
+          b.id === editingBoardId
+            ? { ...b, name: data.name, members: data.members, notificationsEnabled: data.notifications }
+            : b
+        )
+      );
       setEditingBoardId(null);
     },
     [editingBoardId, setBoards]
@@ -158,6 +169,8 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
       <EditBoardModal
         visible={!!editingBoardId}
         initialName={editingBoard?.name ?? ""}
+        initialMembers={editingBoard?.members ?? []}
+        initialNotifications={editingBoard?.notificationsEnabled ?? true}
         onSave={handleSaveEdit}
         onCancel={cancelEdit}
       />
