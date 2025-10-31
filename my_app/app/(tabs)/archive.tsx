@@ -1,7 +1,7 @@
 import { ThemedView } from "@/components/themed-view";
 import { TreeNode, addNode, flattenTree, treeData } from "@/components/tree-row";
 import { useState } from 'react';
-import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { FlatList, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 
 
 export default function RecursiveTaskList() {
@@ -27,7 +27,7 @@ export default function RecursiveTaskList() {
     if (newTaskName.trim() === '') { 
       return;
     };
-
+5
     //selected a task to add task to
     if(selectedTaskId){
       const updatedTaskList =  addNode(tasks, selectedTaskId, newTaskName);
@@ -56,6 +56,8 @@ export default function RecursiveTaskList() {
   
   return (
     <TouchableWithoutFeedback onPress={() => {
+      setSelectedTaskId(null);
+      Keyboard.dismiss();
     }}>
       <ThemedView style = {styles.Container}>
         <FlatList
@@ -68,7 +70,9 @@ export default function RecursiveTaskList() {
           const isSelected = selectedTaskId === item.id;
           
           return (
-            <TouchableOpacity style = {[styles.item, {marginHorizontal: 20 * item.level + 10 }, isSelected && styles.itemSelected]} 
+            <TouchableOpacity style = {[styles.item, 
+              {marginHorizontal: 20 * item.level + 10 }, 
+              isSelected && styles.itemSelected]} 
               //onPress = was beim klick passiert und n. sofort returnen, daher () sondern erst beim klicken 
               // toggleIsExpanded only possible if it has children, always marked
               onPress = {() => {
@@ -84,16 +88,20 @@ export default function RecursiveTaskList() {
           );
         }}
         />
-        <TextInput
-          style={styles.input}
-          placeholder={selectedTaskId ? "Neue Unter-Task..." : "Neue Task..."}
-          value={newTaskName}
-          onChangeText={setNewTaskName}
-        />
-        
-        <TouchableOpacity style={styles.button} onPress={() => editTasklist()}>
-          <Text style={styles.buttonText}>+ Task hinzufügen</Text>
-        </TouchableOpacity>
+        <TouchableWithoutFeedback>
+          <ThemedView>
+            <TextInput
+              style={styles.input}
+              placeholder={selectedTaskId ? "Neue Unter-Task..." : "Neue Task..."}
+              value={newTaskName}
+              onChangeText={setNewTaskName}
+            />
+            
+            <TouchableOpacity style={styles.button} onPress={() => editTasklist()}>
+              <Text style={styles.buttonText}>+ Task hinzufügen</Text>
+            </TouchableOpacity>
+          </ThemedView>  
+        </TouchableWithoutFeedback>
         
       </ThemedView>  
     </TouchableWithoutFeedback>
