@@ -1,7 +1,8 @@
+import Tasklist from "@/components/task-list";
+import { TreeNode, addNode, flattenTree, toggle, treeData } from "@/components/task-row";
 import { ThemedView } from "@/components/themed-view";
-import { TreeNode, addNode, flattenTree, treeData } from "@/components/tree-row";
 import { useState } from 'react';
-import { FlatList, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 
 
 export default function RecursiveTaskList() {
@@ -15,19 +16,16 @@ export default function RecursiveTaskList() {
   //selected task to add to
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   
-
   const toggleIsExpanded = (id: string) => {
-    // .filter iteriert ueber array und filtert alle eintraege die false sind, wenn also die id expanded ist, dann das betroffene item == id ist
-    setIsExpanded(prev => prev.includes(id)? prev.filter(item => item !== id) : [...prev, id]);
+    setIsExpanded(prev => toggle(prev, id))
   };
 
   const editTasklist = () => {
-
     //do nothing
     if (newTaskName.trim() === '') { 
       return;
     };
-5
+
     //selected a task to add task to
     if(selectedTaskId){
       const updatedTaskList =  addNode(tasks, selectedTaskId, newTaskName);
@@ -51,7 +49,7 @@ export default function RecursiveTaskList() {
     setSelectedTaskId(null);
   };
 
-
+  //flat tree here
   const flatData = flattenTree(tasks, 0, isExpanded);
   
   return (
@@ -60,49 +58,26 @@ export default function RecursiveTaskList() {
       Keyboard.dismiss();
     }}>
       <ThemedView style = {styles.Container}>
-        <FlatList
-        data = {flatData}
-        keyExtractor = {item => item.id}
-        renderItem = {({ item }) => {
-          // cant do !!item.children because an empty array would also be true, we dont want to expand an entry with no children FUCK CHILDREN!!
-          const hasChildren = !!item.children?.length;
-          const expanded = isExpanded.includes(item.id);
-          const isSelected = selectedTaskId === item.id;
-          
-          return (
-            <TouchableOpacity style = {[styles.item, 
-              {marginHorizontal: 20 * item.level + 10 }, 
-              isSelected && styles.itemSelected]} 
-              //onPress = was beim klick passiert und n. sofort returnen, daher () sondern erst beim klicken 
-              // toggleIsExpanded only possible if it has children, always marked
-              onPress = {() => {
-                if (hasChildren) toggleIsExpanded(item.id);
-                setSelectedTaskId(item.id);}}>
-
-              <Text>
-                {hasChildren? (expanded? "▼ " : "▶ ") : "  " } 
-                {item.task}
-
-              </Text>
-            </TouchableOpacity>
-          );
-        }}
-        />
+        <Tasklist
+          data={flatData}
+          isExpanded={isExpanded}
+          selectedTaskId={selectedTaskId}
+          toggleIsExpanded={toggleIsExpanded}
+          setSelectedTaskId={setSelectedTaskId}
+        />  
         <TouchableWithoutFeedback>
           <ThemedView>
             <TextInput
               style={styles.input}
-              placeholder={selectedTaskId ? "Neue Unter-Task..." : "Neue Task..."}
+              placeholder={selectedTaskId ? "Neue Teilaufgabe..." : "Neue Aufgabe..."}
               value={newTaskName}
               onChangeText={setNewTaskName}
-            />
-            
+            />       
             <TouchableOpacity style={styles.button} onPress={() => editTasklist()}>
               <Text style={styles.buttonText}>+ Task hinzufügen</Text>
             </TouchableOpacity>
-          </ThemedView>  
+          </ThemedView>
         </TouchableWithoutFeedback>
-        
       </ThemedView>  
     </TouchableWithoutFeedback>
     );
@@ -115,23 +90,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, 
     paddingBottom: 20,
     backgroundColor: "#1c1c1e", 
-  },
-  list: {
-    flex: 1,
-  },
-  item: {
-    paddingVertical: 12,
-    marginVertical: 5,
-    backgroundColor: "#3a3a3c",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-  },
-  itemSelected: {
-    backgroundColor: '#007AFF', 
-  },
-  text: {
-    color: '#fff', 
-    fontSize: 16,
   },
   input: {
     backgroundColor: '#2c2c2e',

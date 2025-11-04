@@ -28,6 +28,17 @@ export const treeData: TreeNode[] = [
   { id: "3", task: "Sport" }
 ];
 
+export const toggle = (currentList: string[], id: string): string[] => {
+    // .filter iteriert ueber array und filtert alle eintraege die false sind, wenn also die id expanded ist, dann das betroffene item == id ist
+    if(currentList.includes(id)){
+      return currentList.filter(item => item !== id);
+    }
+    else{
+      return currentList = [...currentList, id];
+    }
+  };
+
+
  export const flattenTree = (nodes: TreeNode[], level = 0, isExpanded: string[]) : (TreeNode & {level: number})[] => {
     // array, each element has treenode and number, is empty in the beginning (=[];) 
     let list: (TreeNode & {level: number})[] = [];
