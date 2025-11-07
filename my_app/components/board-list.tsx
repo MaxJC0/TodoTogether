@@ -154,6 +154,7 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         keyExtractor={(item: Board) => item.id}
         renderItem={renderItem as any}
         style={styles.list}
+        containerStyle={{ flex: 1}}
         contentContainerStyle={styles.listContent}
         onDragBegin={onDragBegin}
         onDragEnd={onDragEnd}
@@ -182,7 +183,6 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     width: "100%",
-    height: "100%",
   },
   listContent: {
     paddingVertical: 8,

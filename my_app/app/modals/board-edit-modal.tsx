@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   modalCard: {
-    width: "80%",
+    width: "100%",
     height: "80%",
     borderRadius: 12,
     padding: 16,
