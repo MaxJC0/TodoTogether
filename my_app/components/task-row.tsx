@@ -1,6 +1,6 @@
 
 
-export interface TreeNode {
+export type TreeNode = {
 
     id: string;
     task: string;
