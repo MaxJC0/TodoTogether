@@ -8,16 +8,22 @@ import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWitho
 export default function RecursiveTaskList() {
   
   //expanded node
-  const[isExpanded,setIsExpanded] = useState<string[]>([]);
+  const[expanded,setExpanded] = useState<string[]>([]);
   //task array, update (usestate method updates everytime something changes -> interactive dynamic changes)  
   const[tasks, setTasks] = useState<TreeNode[]>(treeData);
+  //favourites
+  const[favourites,setFavorites] = useState<string[]>([]);
   //task name
   const[newTaskName,setNewTaskName] = useState<string>('');
   //selected task to add to
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   
-  const toggleIsExpanded = (id: string) => {
-    setIsExpanded(prev => toggle(prev, id))
+  const toggleExpanded = (id: string) => {
+    setExpanded(prev => toggle(prev, id))
+  };
+
+  const toggleFavourites = (id: string) => {
+    setFavorites(prev => toggle(prev, id))
   };
 
   const editTasklist = () => {
@@ -32,8 +38,8 @@ export default function RecursiveTaskList() {
       setTasks(updatedTaskList);
       
       //expand list after adding, take the prev (current) state and ask if its included
-      //IMPORTANT: if u use if(.includes()) and then toggleIsExpanded it can be an old wrong state, thats why u first take the prev and then ask
-      setIsExpanded(prevExpandedList => {
+      //IMPORTANT: if u use if(.includes()) and then toggleExpanded it can be an old wrong state, thats why u first take the prev and then ask
+      setExpanded(prevExpandedList => {
         if(prevExpandedList.includes(selectedTaskId)) {
           return prevExpandedList;
         }
@@ -50,7 +56,7 @@ export default function RecursiveTaskList() {
   };
 
   //flat tree here
-  const flatData = flattenTree(tasks, 0, isExpanded);
+  const flatData = flattenTree(tasks, 0, expanded);
   
   return (
     <TouchableWithoutFeedback onPress={() => {
@@ -60,10 +66,12 @@ export default function RecursiveTaskList() {
       <ThemedView style = {styles.Container}>
         <Tasklist
           data={flatData}
-          isExpanded={isExpanded}
+          expanded={expanded}
           selectedTaskId={selectedTaskId}
-          toggleIsExpanded={toggleIsExpanded}
+          toggleExpanded={toggleExpanded}
+          favourites= {favourites}
           setSelectedTaskId={setSelectedTaskId}
+          toggleFavourite={toggleFavourites}
         />  
         <TouchableWithoutFeedback>
           <ThemedView>
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  
 });
-
 
 
