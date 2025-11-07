@@ -6,19 +6,24 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
-  TextInput,
   TouchableOpacity,
 } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import DropdownBoardMembers from "@/components/dropdown-board_members";
 import ToggleNotification from "@/components/toggle-notification";
+import ButtonSaveBoard, { ButtonSaveBoardHandle } from "@/components/button-save-board";
+import ButtonDeleteBoard from "@/components/button-delete-board";
+import { useRef } from "react";
+import InputName from "@/components/input-name";
 
 type Props = {
   visible: boolean;
   initialName: string;
   initialMembers: string[];
   initialNotifications?: boolean;
+  boardId?: string;
   onSave: (data: { name: string; members: string[]; notifications: boolean }) => void;
+  onDelete?: (id: string) => void;
   onCancel: () => void;
 };
 
@@ -27,9 +32,12 @@ export default function EditBoardModal({
   initialName,
   initialMembers,
   initialNotifications = true,
+  boardId,
   onSave,
+  onDelete,
   onCancel,
 }: Props) {
+  const saveBtnRef = useRef<ButtonSaveBoardHandle | null>(null);
   const [name, setName] = useState(initialName);
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -41,12 +49,6 @@ export default function EditBoardModal({
       setNotificationsEnabled(initialNotifications ?? true);
     }
   }, [visible, initialName, initialMembers, initialNotifications]);
-
-  const save = () => {
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    onSave({ name: trimmed, members: selectedPeople, notifications: notificationsEnabled });
-  };
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
@@ -64,15 +66,12 @@ export default function EditBoardModal({
 
                 <View style={styles.section}>
                   <ThemedText style={styles.sectionLabel}>Name</ThemedText>
-                  <TextInput
-                  value={name}
-                  onChangeText={setName}
-                  placeholder="Board name"
-                  placeholderTextColor="#aaa"
-                  autoFocus
-                  style={styles.input}
-                  returnKeyType="done"
-                  onSubmitEditing={save}
+                  <InputName
+                    value={name}
+                    onChangeText={setName}
+                    placeholder="Board name"
+                    autoFocus
+                    onSubmitEditing={() => saveBtnRef.current?.submit()}
                   />
                 </View>
 
@@ -91,16 +90,34 @@ export default function EditBoardModal({
               </View>
 
               <View style={styles.modalActions}>
-                <TouchableOpacity onPress={onCancel} style={[styles.btn, styles.btnSecondary]}>
-                  <ThemedText>Cancel</ThemedText>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={save}
-                  style={[styles.btn, styles.btnPrimary]}
-                  disabled={!name.trim()}
-                >
-                  <ThemedText>Save</ThemedText>
-                </TouchableOpacity>
+                <View style={styles.leftActions}>
+                  {boardId && onDelete && (
+                    <ButtonDeleteBoard
+                      boardId={boardId}
+                      boardName={initialName}
+                      onDelete={(id) => {
+                        onDelete(id);
+                        onCancel();
+                      }}
+                      label="Delete"
+                      style={styles.deleteBtn}
+                    />
+                  )}
+                </View>
+                <View style={styles.rightActions}>
+                  <TouchableOpacity onPress={onCancel} style={[styles.btn, styles.btnSecondary]}>
+                    <ThemedText>Cancel</ThemedText>
+                  </TouchableOpacity>
+                  <ButtonSaveBoard
+                    ref={saveBtnRef}
+                    name={name}
+                    members={selectedPeople}
+                    notifications={notificationsEnabled}
+                    onSave={({ name, members, notifications }) =>
+                      onSave({ name, members, notifications })
+                    }
+                  />
+                </View>
               </View>
             </View>
           </KeyboardAvoidingView>
@@ -139,16 +156,6 @@ const styles = StyleSheet.create({
   modalTitle: {
     marginBottom: 10,
   },
-  input: {
-    width: "100%",
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    color: "#fff",
-    backgroundColor: "rgba(255,255,255,0.06)",
-  },
   section: {
     marginTop: 12,
   },
@@ -159,14 +166,24 @@ const styles = StyleSheet.create({
   modalActions: {
     marginTop: 14,
     flexDirection: "row",
-    justifyContent: "flex-end",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  leftActions: {
+    flexDirection: "row",
+    gap: 8,
+    flex: 1,
+  },
+  rightActions: {
+    flexDirection: "row",
     gap: 10,
+    alignItems: 'center'
   },
   btn: {
-    minWidth: 88,
+    minWidth: 80,
     paddingVertical: 10,
     paddingHorizontal: 14,
-    borderRadius: 8,
+    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -175,7 +192,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.16)",
   },
-  btnPrimary: {
-    backgroundColor: "#9f9f9fff",
-  },
+  deleteBtn: {
+    // additional positioning or overrides if needed
+  }
 });

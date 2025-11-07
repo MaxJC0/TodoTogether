@@ -172,7 +172,16 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         initialName={editingBoard?.name ?? ""}
         initialMembers={editingBoard?.members ?? []}
         initialNotifications={editingBoard?.notificationsEnabled ?? true}
+        boardId={editingBoard?.id}
         onSave={handleSaveEdit}
+        onDelete={(id) => {
+          setBoards((prev) => prev.filter((b) => b.id !== id));
+          setFavorites((prev) => {
+            const { [id]: _, ...rest } = prev;
+            return rest;
+          });
+          cancelEdit();
+        }}
         onCancel={cancelEdit}
       />
     </>
