@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingVertical: 8,
-    paddingBottom: 16,
+    paddingBottom: 54,
   },
   sectionHeader: {
     paddingTop: 12,
