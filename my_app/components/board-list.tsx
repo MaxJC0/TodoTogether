@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { ThemedText } from "@/components/themed-text";
-import ButtonPlus from "@/components/button-plus";
+import ButtonPlus from "@/components/button-add-board";
 import BoardRow from "@/components/board-row";
 import EditBoardModal from "@/app/modals/board-edit-modal";
 
@@ -22,6 +22,7 @@ type Props = {
 export default function BoardList({ boards, setBoards, searchQuery }: Props) {
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
   const [editingBoardId, setEditingBoardId] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const editingBoard = useMemo(
     () => boards.find((b) => b.id === editingBoardId) ?? null,
     [boards, editingBoardId]
@@ -50,24 +51,45 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
 
   const startEdit = useCallback((id: string) => {
     setEditingBoardId(id);
+    setIsCreating(false);
   }, []);
 
-  const handleSaveEdit = useCallback(
+  const startCreate = useCallback(() => {
+    setIsCreating(true);
+    setEditingBoardId(null);
+  }, []);
+
+  const handleSave = useCallback(
     (data: { name: string; members: string[]; notifications: boolean }) => {
-      if (!editingBoardId) return;
-      setBoards((prev) =>
-        prev.map((b) =>
-          b.id === editingBoardId
-            ? { ...b, name: data.name, members: data.members, notificationsEnabled: data.notifications }
-            : b
-        )
-      );
-      setEditingBoardId(null);
+      if (isCreating) {
+        const newBoard: Board = {
+          id: String(Date.now()),
+          name: data.name,
+          members: data.members,
+          notificationsEnabled: data.notifications,
+        };
+        setBoards((prev) => [...prev, newBoard]);
+        setIsCreating(false);
+        return;
+      }
+      if (editingBoardId) {
+        setBoards((prev) =>
+          prev.map((b) =>
+            b.id === editingBoardId
+              ? { ...b, name: data.name, members: data.members, notificationsEnabled: data.notifications }
+              : b
+          )
+        );
+        setEditingBoardId(null);
+      }
     },
-    [editingBoardId, setBoards]
+    [isCreating, editingBoardId, setBoards]
   );
 
-  const cancelEdit = useCallback(() => setEditingBoardId(null), []);
+  const cancelEdit = useCallback(() => {
+    setEditingBoardId(null);
+    setIsCreating(false);
+  }, []);
 
   const renderItem = useCallback(
     ({ item, index, drag }: { item: Board; index: number; drag: () => void }) => {
@@ -162,19 +184,19 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         showsVerticalScrollIndicator={true}
         ListFooterComponent={
           <View style={styles.footer}>
-            <ButtonPlus boards={boards} setBoards={setBoards} />
+            <ButtonPlus onPress={startCreate} />
           </View>
         }
       />
 
       <EditBoardModal
-        visible={!!editingBoardId}
-        initialName={editingBoard?.name ?? ""}
-        initialMembers={editingBoard?.members ?? []}
-        initialNotifications={editingBoard?.notificationsEnabled ?? true}
-        boardId={editingBoard?.id}
-        onSave={handleSaveEdit}
-        onDelete={(id) => {
+        visible={isCreating || !!editingBoardId}
+        initialName={isCreating ? "" : editingBoard?.name ?? ""}
+        initialMembers={isCreating ? [] : editingBoard?.members ?? []}
+        initialNotifications={isCreating ? true : editingBoard?.notificationsEnabled ?? true}
+        boardId={isCreating ? undefined : editingBoard?.id}
+        onSave={handleSave}
+        onDelete={isCreating ? undefined : (id) => {
           setBoards((prev) => prev.filter((b) => b.id !== id));
           setFavorites((prev) => {
             const { [id]: _, ...rest } = prev;

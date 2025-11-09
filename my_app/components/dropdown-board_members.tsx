@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View, ScrollView } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 
 export type DropdownBoardMembersProps = {
@@ -51,7 +51,11 @@ export default function DropdownBoardMembers({
           <ThemedText style={styles.dropdownChevron}>{open ? "▲" : "▼"}</ThemedText>
         </Pressable>
         {open && (
-          <View style={styles.dropdownList}>
+          <ScrollView
+            style={styles.dropdownList}
+            contentContainerStyle={styles.dropdownListContent}
+            keyboardShouldPersistTaps="handled"
+          >
             {people.map((p: string) => {
               const checked = selected.includes(p);
               return (
@@ -69,7 +73,7 @@ export default function DropdownBoardMembers({
                 </Pressable>
               );
             })}
-          </View>
+          </ScrollView>
         )}
       </View>
     </View>
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
     dropdownChevron: {
         opacity: 0.7,
     },
-    dropdownList: {
+  dropdownList: {
         position: "absolute",
         left: 0,
         right: 0,
@@ -112,17 +116,18 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "#ccc",
-        backgroundColor: "rgba(255, 255, 255, 0.04)",
+        backgroundColor: "#272627",
         zIndex: 10,
         elevation: 6,
         shadowColor: "#000",
         shadowOpacity: 0.2,
         shadowOffset: { width: 0, height: 6 },
         shadowRadius: 10,
-        maxHeight: 200, // Limit the dropdown height
-         // Ensure items outside the limit are hidden
-         overflow: "scroll",
+    maxHeight: 200,
     },
+  dropdownListContent: {
+    paddingVertical: 4,
+  },
     dropdownItem: {
         flexDirection: "row",
         alignItems: "center",
@@ -143,8 +148,8 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
     },
     checkboxChecked: {
-        backgroundColor: "#3b82f6",
-        borderColor: "#3b82f6",
+        backgroundColor: "#ACABAD",
+        borderColor: "#fff",
     },
     checkboxMark: {
         color: "#fff",

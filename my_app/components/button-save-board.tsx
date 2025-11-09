@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo } from 'react';
-import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
+import { StyleSheet, TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 
 export type SaveBoardPayload = {
@@ -18,7 +18,7 @@ type Props = {
   notifications: boolean;
   onSave: (data: SaveBoardPayload) => void;
   label?: string;
-  style?: ViewStyle | ViewStyle[];
+  style?: StyleProp<ViewStyle>;
 };
 
 const ButtonSaveBoard = forwardRef<ButtonSaveBoardHandle, Props>(

@@ -2,31 +2,23 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-type Board = { id: string; name: string };
-
 type ButtonPlusProps = {
-	boards: Board[];
-	setBoards: React.Dispatch<React.SetStateAction<Board[]>>;
+	onPress: () => void;
 	label?: string;
 	style?: StyleProp<ViewStyle>;
 };
 
-export default function ButtonPlus({ boards, setBoards, label = "Create", style }: ButtonPlusProps) {
-    const handleCreate = () => {
-        const n = boards.length + 1;
-        setBoards((prev) => [...prev, { id: String(Date.now()), name: `Board ${n}` }]);
-    };
-
-    return (
+export default function ButtonPlus({ onPress, label = "Create", style }: ButtonPlusProps) {
+	return (
 		<TouchableOpacity
-            accessibilityRole="button"
-            accessibilityLabel={label}
-            onPress={handleCreate}
-            style={[styles.btn, styles.primary, style]}
-        >
+			accessibilityRole="button"
+			accessibilityLabel={label}
+			onPress={onPress}
+			style={[styles.btn, styles.primary, style]}
+		>
 			<Ionicons name="add" size={28} color="#fff" />
-        </TouchableOpacity>
-    );
+		</TouchableOpacity>
+	);
 }
 
 const styles = StyleSheet.create({

@@ -68,9 +68,10 @@ export default function EditBoardModal({
                   <ThemedText style={styles.sectionLabel}>Name</ThemedText>
                   <InputName
                     value={name}
-                    onChangeText={setName}
+                    onChangeText={(text) => setName(text.slice(0, 40))}
                     placeholder="Board name"
                     autoFocus
+                    maxLength={50}
                     onSubmitEditing={() => saveBtnRef.current?.submit()}
                   />
                 </View>
@@ -100,7 +101,6 @@ export default function EditBoardModal({
                         onCancel();
                       }}
                       label="Delete"
-                      style={styles.deleteBtn}
                     />
                   )}
                 </View>
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   modalCard: {
-    width: "100%",
+    width: "120%",
     height: "80%",
     borderRadius: 12,
     padding: 16,
@@ -192,7 +192,4 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.16)",
   },
-  deleteBtn: {
-    // additional positioning or overrides if needed
-  }
 });

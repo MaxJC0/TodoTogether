@@ -86,6 +86,7 @@ export default function ToggleNotification({ value, onChange, label = "Notificat
 
 const styles = StyleSheet.create({
   container: {
+    paddingRight: 4,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
