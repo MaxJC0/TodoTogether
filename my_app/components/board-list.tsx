@@ -4,7 +4,7 @@ import DraggableFlatList from "react-native-draggable-flatlist";
 import { ThemedText } from "@/components/themed-text";
 import ButtonPlus from "@/components/button-add-board";
 import BoardRow from "@/components/board-row";
-import EditBoardModal from "@/app/modals/board-edit-modal";
+import EditBoardModal from "@/app/(modal)/board-edit-modal";
 
 export type Board = {
   id: string;

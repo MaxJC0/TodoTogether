@@ -18,7 +18,7 @@ export default function InputSearchBar({
   return (
     <View
       pointerEvents="box-none"
-      style={[styles.overlay, { paddingBottom: insets.bottom }]}
+      style={styles.overlay}
     >
       <View style={styles.inner}>
         <TextInput

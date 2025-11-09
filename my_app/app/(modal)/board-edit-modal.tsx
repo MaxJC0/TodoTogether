@@ -4,8 +4,6 @@ import {
   View,
   StyleSheet,
   Pressable,
-  KeyboardAvoidingView,
-  Platform,
   TouchableOpacity,
 } from "react-native";
 import { ThemedText } from "@/components/themed-text";
@@ -59,10 +57,6 @@ export default function EditBoardModal({
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
       <Pressable style={styles.modalOverlay} onPress={onCancel}>
         <Pressable style={{ width: "100%", height: "100%" }} onPress={() => {}}>
-          <KeyboardAvoidingView
-            behavior={Platform.select({ ios: "padding", android: undefined })}
-            style={styles.modalCenter}
-          >
             <View style={styles.modalCard}>
               <View style={styles.modalBody}>
                 <ThemedText type="title" style={styles.modalTitle}>
@@ -98,7 +92,14 @@ export default function EditBoardModal({
                 <View style={styles.section}>
                   <ThemedText style={styles.sectionLabel}>Color</ThemedText>
                   <ColorPicker
-                    colors={["rgba(39, 38, 39, 1)", "rgba(59, 130, 246, 1)", "rgba(16, 185, 129, 1)", "rgba(245, 158, 11, 1)", "rgba(239, 68, 68, 1)", "rgba(168, 85, 247, 1)"]}
+                    colors={[
+                        "rgba(39, 38, 39, 1)", 
+                        "rgba(59, 130, 246, 1)", 
+                        "rgba(16, 185, 129, 1)", 
+                        "rgba(245, 158, 11, 1)", 
+                        "rgba(239, 68, 68, 1)", 
+                        "rgba(168, 85, 247, 1)"
+                      ]}
                     value={color}
                     onChange={setColor}
                   />
@@ -136,7 +137,6 @@ export default function EditBoardModal({
                 </View>
               </View>
             </View>
-          </KeyboardAvoidingView>
         </Pressable>
       </Pressable>
     </Modal>
@@ -149,22 +149,19 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.45)",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 44,
-  },
-  modalCenter: {
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    paddingHorizontal: 22,
+    paddingVertical: 34,
   },
   modalCard: {
-    width: "120%",
+    width: "100%",
     height: "80%",
     borderRadius: 12,
     padding: 16,
     backgroundColor: "rgba(30,30,30,0.98)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.12)",
+    alignItems: "center",
+    justifyContent: "center",
   },
   modalBody: {
     flex: 1,

@@ -19,7 +19,7 @@ export default function ColorPicker({ colors, value, onChange, size = 28, style 
             key={c}
             onPress={() => onChange(c)}
             style={[
-              { width: size, height: size, borderRadius: size / 2, borderWidth: 2 },
+              { width: size, height: size, borderRadius: size / 2, borderWidth: 2.5 },
               { backgroundColor: c, borderColor: selected ? '#fff' : 'rgba(255,255,255,0.4)' },
             ]}
             accessibilityRole="button"
