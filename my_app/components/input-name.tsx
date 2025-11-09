@@ -15,6 +15,7 @@ const InputName = forwardRef<TextInput, InputNameProps>(
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
+        selectionColor="white"
         style={[styles.input, style]}
         returnKeyType={rest.returnKeyType || 'done'}
         {...rest}

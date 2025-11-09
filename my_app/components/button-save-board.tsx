@@ -6,6 +6,7 @@ export type SaveBoardPayload = {
   name: string;
   members: string[];
   notifications: boolean;
+  color?: string;
 };
 
 export type ButtonSaveBoardHandle = {
@@ -16,20 +17,21 @@ type Props = {
   name: string;
   members: string[];
   notifications: boolean;
+  color?: string;
   onSave: (data: SaveBoardPayload) => void;
   label?: string;
   style?: StyleProp<ViewStyle>;
 };
 
 const ButtonSaveBoard = forwardRef<ButtonSaveBoardHandle, Props>(
-  ({ name, members, notifications, onSave, label = 'Save', style }, ref) => {
+  ({ name, members, notifications, color, onSave, label = 'Save', style }, ref) => {
     const trimmedName = useMemo(() => name?.trim() ?? '', [name]);
     const isDisabled = !trimmedName;
 
     const submit = useCallback(() => {
       if (isDisabled) return;
-      onSave({ name: trimmedName, members, notifications });
-    }, [isDisabled, onSave, trimmedName, members, notifications]);
+      onSave({ name: trimmedName, members, notifications, color });
+    }, [isDisabled, onSave, trimmedName, members, notifications, color]);
 
     useImperativeHandle(ref, () => ({ submit }), [submit]);
 

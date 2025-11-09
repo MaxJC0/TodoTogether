@@ -1,6 +1,7 @@
-import React from 'react';
-import { Alert, StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
+import React, { useState } from 'react';
+import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
+import ConfirmDialog from '@/components/ui/confirm-dialog';
 
 type Props = {
   boardId: string;
@@ -17,31 +18,38 @@ export default function ButtonDeleteBoard({
   label = 'Delete',
   style,
 }: Props) {
-  const confirm = () => {
-    Alert.alert(
-      'Delete board?',
-      boardName ? `Are you sure you want to delete "${boardName}"? This cannot be undone.` :
-        'Are you sure you want to delete this board? This cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => onDelete(boardId),
-        },
-      ]
-    );
+  const [showConfirm, setShowConfirm] = useState(false);
+  const confirm = () => setShowConfirm(true);
+  const handleConfirm = () => {
+    setShowConfirm(false);
+    onDelete(boardId);
   };
 
   return (
-    <TouchableOpacity
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      onPress={confirm}
-      style={[styles.btn, styles.danger, style]}
-    >
-      <ThemedText style={styles.text}>{label}</ThemedText>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        onPress={confirm}
+        style={[styles.btn, styles.danger, style]}
+      >
+        <ThemedText style={styles.text}>{label}</ThemedText>
+      </TouchableOpacity>
+      <ConfirmDialog
+        visible={showConfirm}
+        title="Delete board?"
+        message={
+          boardName
+            ? `Are you sure you want to delete "${boardName}"? This cannot be undone.`
+            : 'Are you sure you want to delete this board? This cannot be undone.'
+        }
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        destructive
+        onConfirm={handleConfirm}
+        onCancel={() => setShowConfirm(false)}
+      />
+    </>
   );
 }
 

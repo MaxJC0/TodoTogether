@@ -8,6 +8,7 @@ import ButtonDrag from "@/components/button-drag";
 type Props = {
   id: string;
   name: string;
+  color?: string;
   isFavorite?: boolean;
   onToggleSelect?: (id: string) => void;
   onToggleFavorite?: (id: string) => void;
@@ -18,6 +19,7 @@ type Props = {
 export default function BoardRow({
   id,
   name,
+  color,
   isFavorite = false,
   onToggleSelect = () => {},
   onToggleFavorite = () => {},
@@ -25,7 +27,12 @@ export default function BoardRow({
   onDrag = () => {},
 }: Props) {
   return (
-    <View style={styles.row}>
+    <View style={[
+      styles.row,
+      color ? { 
+        backgroundColor: color, 
+        borderColor: '#ACABAD' } : null,
+    ]}>
       <ThemedText style={styles.boardName}>{name}</ThemedText>
 
       <View style={styles.actions}>

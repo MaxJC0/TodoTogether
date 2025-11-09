@@ -15,6 +15,7 @@ import ButtonSaveBoard, { ButtonSaveBoardHandle } from "@/components/button-save
 import ButtonDeleteBoard from "@/components/button-delete-board";
 import { useRef } from "react";
 import InputName from "@/components/input-name";
+import ColorPicker from "@/components/color-picker";
 
 type Props = {
   visible: boolean;
@@ -22,7 +23,8 @@ type Props = {
   initialMembers: string[];
   initialNotifications?: boolean;
   boardId?: string;
-  onSave: (data: { name: string; members: string[]; notifications: boolean }) => void;
+  initialColor?: string;
+  onSave: (data: { name: string; members: string[]; notifications: boolean; color?: string }) => void;
   onDelete?: (id: string) => void;
   onCancel: () => void;
 };
@@ -33,6 +35,7 @@ export default function EditBoardModal({
   initialMembers,
   initialNotifications = true,
   boardId,
+  initialColor = '#3b82f6',
   onSave,
   onDelete,
   onCancel,
@@ -41,14 +44,16 @@ export default function EditBoardModal({
   const [name, setName] = useState(initialName);
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [color, setColor] = useState(initialColor);
 
   useEffect(() => {
     if (visible) {
       setName(initialName);
       setSelectedPeople(initialMembers ?? []);
       setNotificationsEnabled(initialNotifications ?? true);
+      setColor(initialColor);
     }
-  }, [visible, initialName, initialMembers, initialNotifications]);
+  }, [visible, initialName, initialMembers, initialNotifications, initialColor]);
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
@@ -88,6 +93,16 @@ export default function EditBoardModal({
                     onChange={setNotificationsEnabled}
                   />
                 </View>
+
+                {/* Color selector */}
+                <View style={styles.section}>
+                  <ThemedText style={styles.sectionLabel}>Color</ThemedText>
+                  <ColorPicker
+                    colors={["rgba(39, 38, 39, 1)", "rgba(59, 130, 246, 1)", "rgba(16, 185, 129, 1)", "rgba(245, 158, 11, 1)", "rgba(239, 68, 68, 1)", "rgba(168, 85, 247, 1)"]}
+                    value={color}
+                    onChange={setColor}
+                  />
+                </View>
               </View>
 
               <View style={styles.modalActions}>
@@ -113,8 +128,9 @@ export default function EditBoardModal({
                     name={name}
                     members={selectedPeople}
                     notifications={notificationsEnabled}
-                    onSave={({ name, members, notifications }) =>
-                      onSave({ name, members, notifications })
+                    color={color}
+                    onSave={({ name, members, notifications, color }) =>
+                      onSave({ name, members, notifications, color })
                     }
                   />
                 </View>

@@ -11,6 +11,7 @@ export type Board = {
   name: string;
   members?: string[];
   notificationsEnabled?: boolean;
+  color?: string;
 };
 
 type Props = {
@@ -60,13 +61,14 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
   }, []);
 
   const handleSave = useCallback(
-    (data: { name: string; members: string[]; notifications: boolean }) => {
+    (data: { name: string; members: string[]; notifications: boolean; color?: string }) => {
       if (isCreating) {
         const newBoard: Board = {
           id: String(Date.now()),
           name: data.name,
           members: data.members,
           notificationsEnabled: data.notifications,
+          color: data.color,
         };
         setBoards((prev) => [...prev, newBoard]);
         setIsCreating(false);
@@ -76,7 +78,13 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         setBoards((prev) =>
           prev.map((b) =>
             b.id === editingBoardId
-              ? { ...b, name: data.name, members: data.members, notificationsEnabled: data.notifications }
+              ? {
+                  ...b,
+                  name: data.name,
+                  members: data.members,
+                  notificationsEnabled: data.notifications,
+                  ...(data.color ? { color: data.color } : {}),
+                }
               : b
           )
         );
@@ -111,6 +119,7 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
           <MemoRow
             id={item.id}
             name={item.name}
+            color={item.color}
             isFavorite={!!favorites[item.id]}
             onToggleFavorite={toggleFavorite}
             onEdit={startEdit}
@@ -195,6 +204,7 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         initialMembers={isCreating ? [] : editingBoard?.members ?? []}
         initialNotifications={isCreating ? true : editingBoard?.notificationsEnabled ?? true}
         boardId={isCreating ? undefined : editingBoard?.id}
+        initialColor={isCreating ? undefined : editingBoard?.color ?? undefined}
         onSave={handleSave}
         onDelete={isCreating ? undefined : (id) => {
           setBoards((prev) => prev.filter((b) => b.id !== id));

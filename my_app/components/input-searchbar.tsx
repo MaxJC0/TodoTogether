@@ -26,6 +26,7 @@ export default function InputSearchBar({
           onChangeText={onChange}
           placeholder={placeholder}
           placeholderTextColor="#aaa"
+          selectionColor="white"
           style={styles.input}
           returnKeyType="search"
         />
