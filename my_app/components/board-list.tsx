@@ -154,6 +154,7 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         keyExtractor={(item: Board) => item.id}
         renderItem={renderItem as any}
         style={styles.list}
+        containerStyle={{ flex: 1}}
         contentContainerStyle={styles.listContent}
         onDragBegin={onDragBegin}
         onDragEnd={onDragEnd}
@@ -171,7 +172,16 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         initialName={editingBoard?.name ?? ""}
         initialMembers={editingBoard?.members ?? []}
         initialNotifications={editingBoard?.notificationsEnabled ?? true}
+        boardId={editingBoard?.id}
         onSave={handleSaveEdit}
+        onDelete={(id) => {
+          setBoards((prev) => prev.filter((b) => b.id !== id));
+          setFavorites((prev) => {
+            const { [id]: _, ...rest } = prev;
+            return rest;
+          });
+          cancelEdit();
+        }}
         onCancel={cancelEdit}
       />
     </>
@@ -182,11 +192,10 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     width: "100%",
-    height: "100%",
   },
   listContent: {
     paddingVertical: 8,
-    paddingBottom: 16,
+    paddingBottom: 54,
   },
   sectionHeader: {
     paddingTop: 12,
