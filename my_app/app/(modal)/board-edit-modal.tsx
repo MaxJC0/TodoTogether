@@ -10,8 +10,8 @@ import {
 import { ThemedText } from "@/components/themed-text";
 import DropdownBoardMembers from "@/components/dropdown-board_members";
 import ToggleNotification from "@/components/toggle-notification";
-import ButtonSaveBoard, { ButtonSaveBoardHandle } from "@/components/button-save-board";
-import ButtonDeleteBoard from "@/components/button-delete-board";
+import ButtonSaveBoard, { ButtonSaveBoardHandle } from "@/components/buttons/button-save-board";
+import ButtonDeleteBoard from "@/components/buttons/button-delete-board";
 import { useRef } from "react";
 import InputName from "@/components/input-name";
 import ColorPicker from "@/components/color-picker";

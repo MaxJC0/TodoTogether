@@ -1,9 +1,10 @@
 import React from "react";
 import { ThemedText } from "@/components/themed-text";
-import { StyleSheet, View } from "react-native";
-import ButtonFavorite from "@/components/button-favorite";
-import ButtonEditBoard from "@/components/button-edit-board";
-import ButtonDrag from "@/components/button-drag";
+import { StyleSheet, View, Pressable } from "react-native";
+import { router } from "expo-router";
+import ButtonFavorite from "@/components/buttons/button-favorite";
+import ButtonEditBoard from "@/components/buttons/button-edit-board";
+import ButtonDrag from "@/components/buttons/button-drag";
 
 type Props = {
   id: string;
@@ -29,7 +30,11 @@ export default function BoardRow({
   // Soften the background color while preserving the border color
   const softenedBg = color ? hexToRgba(color, 0.12) : undefined;
   return (
-    <View style={[
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`open-board-${id}`}
+      onPress={() => router.push({ pathname: "/board/[id]", params: { id, name } })}
+      style={[
       styles.row,
       color
         ? {
@@ -37,7 +42,8 @@ export default function BoardRow({
             borderColor: "#ACABAD",
           }
         : null,
-    ]}>
+    ]}
+    >
       <ThemedText style={styles.boardName}>{name}</ThemedText>
 
       <View style={styles.actions}>
@@ -55,7 +61,7 @@ export default function BoardRow({
           onLongPress={() => onDrag(id)}
         />
       </View>
-    </View>
+    </Pressable>
   );
 }
 

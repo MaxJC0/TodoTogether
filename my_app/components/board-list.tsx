@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { ThemedText } from "@/components/themed-text";
-import ButtonPlus from "@/components/button-add-board";
+import ButtonPlus from "@/components/buttons/button-add-board";
 import BoardRow from "@/components/board-row";
 import EditBoardModal from "@/app/(modal)/board-edit-modal";
 
