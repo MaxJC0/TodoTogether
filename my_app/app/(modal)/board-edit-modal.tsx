@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Pressable,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import DropdownBoardMembers from "@/components/dropdown-board_members";
@@ -33,7 +34,7 @@ export default function EditBoardModal({
   initialMembers,
   initialNotifications = true,
   boardId,
-  initialColor = '#3b82f6',
+  initialColor = 'rgba(21, 23, 24, 1)',
   onSave,
   onDelete,
   onCancel,
@@ -43,6 +44,10 @@ export default function EditBoardModal({
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [color, setColor] = useState(initialColor);
+  const [{ screenW, screenH }, setScreen] = useState(() => {
+    const { width, height } = Dimensions.get("screen");
+    return { screenW: width, screenH: height };
+  });
 
   useEffect(() => {
     if (visible) {
@@ -53,9 +58,27 @@ export default function EditBoardModal({
     }
   }, [visible, initialName, initialMembers, initialNotifications, initialColor]);
 
+  // Keep modal sized to full screen dimensions (not window), so it doesn't shrink when keyboard opens
+  useEffect(() => {
+    const sub = Dimensions.addEventListener("change", ({ screen }) => {
+      setScreen({ screenW: screen.width, screenH: screen.height });
+    });
+    return () => {
+      // RN supports .remove() or direct return depending on version
+      // @ts-ignore
+      sub?.remove?.();
+    };
+  }, []);
+
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
-      <Pressable style={styles.modalOverlay} onPress={onCancel}>
+      <Pressable
+        style={[
+          styles.modalOverlay,
+          { width: screenW, height: screenH },
+        ]}
+        onPress={onCancel}
+      >
         <Pressable style={{ width: "100%", height: "100%" }} onPress={() => {}}>
             <View style={styles.modalCard}>
               <View style={styles.modalBody}>
@@ -145,7 +168,9 @@ export default function EditBoardModal({
 
 const styles = StyleSheet.create({
   modalOverlay: {
-    flex: 1,
+    position: "absolute",
+    top: 0,
+    left: 0,
     backgroundColor: "rgba(0,0,0,0.45)",
     justifyContent: "center",
     alignItems: "center",
