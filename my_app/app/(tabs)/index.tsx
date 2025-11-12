@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -25,12 +23,10 @@ export default function TestScreen() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <KeyboardAvoidingView
+      <View
         style={{ flex: 1 }}
-        behavior={Platform.select({ ios: "padding", android: "height" })}
-        keyboardVerticalOffset={insets.top}
       >
-        <ThemedView style={styles.container}>
+        <ThemedView style={[styles.container, { paddingBottom: insets.bottom + 64 }]}>
           <ThemedText type="title" style={styles.title}>
             Your Boards
           </ThemedText>
@@ -49,7 +45,7 @@ export default function TestScreen() {
             placeholder="Search boards..."
           />
         </ThemedView>
-      </KeyboardAvoidingView>
+      </View>
     </GestureHandlerRootView>
   );
 }

@@ -93,7 +93,7 @@ export default function EditBoardModal({
                   <ThemedText style={styles.sectionLabel}>Color</ThemedText>
                   <ColorPicker
                     colors={[
-                        "rgba(39, 38, 39, 1)", 
+                        "rgba(21, 23, 24, 1)", 
                         "rgba(59, 130, 246, 1)", 
                         "rgba(16, 185, 129, 1)", 
                         "rgba(245, 158, 11, 1)", 
