@@ -1,24 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Pressable, StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import InputName from "@/components/input-name";
+import DropdownTodoCategory from "@/components/dropdown-todo-category";
 
 export type TodoEditModalProps = {
   visible: boolean;
   initialName?: string;
+  // Category not passed out yet; UI only per request
   onSave: (name: string) => void;
   onCancel: () => void;
 };
 
 export default function TodoEditModal({ visible, initialName = "", onSave, onCancel }: TodoEditModalProps) {
   const [name, setName] = useState(initialName);
+  const CATEGORIES = ["General", "Work", "Personal", "Errand", "Idea", "Urgent"] as const;
+  const [category, setCategory] = useState<string>(CATEGORIES[0]);
   const [{ screenW, screenH }, setScreen] = useState(() => {
     const { width, height } = Dimensions.get("screen");
     return { screenW: width, screenH: height };
   });
 
   useEffect(() => {
-    if (visible) setName(initialName ?? "");
+    if (visible) {
+      setName(initialName ?? "");
+      setCategory(CATEGORIES[0]);
+    }
   }, [visible, initialName]);
 
   const handleSave = () => {
@@ -32,8 +39,6 @@ export default function TodoEditModal({ visible, initialName = "", onSave, onCan
       setScreen({ screenW: screen.width, screenH: screen.height });
     });
     return () => {
-      // RN supports .remove() depending on version
-      // @ts-ignore
       sub?.remove?.();
     };
   }, []);
@@ -61,6 +66,12 @@ export default function TodoEditModal({ visible, initialName = "", onSave, onCan
                   maxLength={100}
                   onSubmitEditing={handleSave}
                 />
+              </View>
+
+              <View style={styles.section}>
+                <DropdownTodoCategory 
+                  selected={category} 
+                  onChange={setCategory} />
               </View>
             </View>
 
@@ -94,7 +105,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     width: "100%",
-    height: "40%",
+    height: "70%",
     borderRadius: 12,
     padding: 16,
     backgroundColor: "rgba(30,30,30,0.98)",

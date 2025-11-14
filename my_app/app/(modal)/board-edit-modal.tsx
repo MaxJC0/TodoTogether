@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import { ThemedText } from "@/components/themed-text";
-import DropdownBoardMembers from "@/components/dropdown-board_members";
+import DropdownBoardMembers from "@/components/dropdown-board-members";
 import ToggleNotification from "@/components/toggle-notification";
 import ButtonSaveBoard, { ButtonSaveBoardHandle } from "@/components/buttons/button-save-board";
 import ButtonDeleteBoard from "@/components/buttons/button-delete-board";
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     width: "100%",
-    height: "80%",
+    height: "70%",
     borderRadius: 12,
     padding: 16,
     backgroundColor: "rgba(30,30,30,0.98)",
