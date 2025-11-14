@@ -3,19 +3,23 @@ import { Modal, Pressable, StyleSheet, TouchableOpacity, View, Dimensions } from
 import { ThemedText } from "@/components/themed-text";
 import InputName from "@/components/input-name";
 import DropdownTodoCategory from "@/components/dropdown-todo-category";
+import TimeSelectComponent, { RepeatRule, Schedule } from "@/components/time-select-component";
 
 export type TodoEditModalProps = {
   visible: boolean;
   initialName?: string;
+  initialSchedule?: Schedule;
   // Category not passed out yet; UI only per request
-  onSave: (name: string) => void;
+  onSave: (payload: { name: string; schedule?: Schedule }) => void;
   onCancel: () => void;
 };
 
-export default function TodoEditModal({ visible, initialName = "", onSave, onCancel }: TodoEditModalProps) {
+export default function TodoEditModal({ visible, initialName = "", initialSchedule, onSave, onCancel }: TodoEditModalProps) {
   const [name, setName] = useState(initialName);
   const CATEGORIES = ["General", "Work", "Personal", "Errand", "Idea", "Urgent"] as const;
   const [category, setCategory] = useState<string>(CATEGORIES[0]);
+  // schedule state (controlled by TimeSelectComponent)
+  const [schedule, setSchedule] = useState<Schedule | undefined>(initialSchedule);
   const [{ screenW, screenH }, setScreen] = useState(() => {
     const { width, height } = Dimensions.get("screen");
     return { screenW: width, screenH: height };
@@ -25,12 +29,14 @@ export default function TodoEditModal({ visible, initialName = "", onSave, onCan
     if (visible) {
       setName(initialName ?? "");
       setCategory(CATEGORIES[0]);
+      setSchedule(initialSchedule);
     }
-  }, [visible, initialName]);
+  }, [visible, initialName, initialSchedule]);
 
   const handleSave = () => {
     const trimmed = name.trim();
-    onSave(trimmed.length > 0 ? trimmed : "Untitled todo");
+    const finalName = trimmed.length > 0 ? trimmed : "Untitled todo";
+    onSave({ name: finalName, schedule });
   };
 
   // Keep modal sized to full screen dimensions (not window), so it doesn't shrink when keyboard opens
@@ -73,6 +79,10 @@ export default function TodoEditModal({ visible, initialName = "", onSave, onCan
                   selected={category} 
                   onChange={setCategory} />
               </View>
+
+              <View style={styles.section}>
+                <TimeSelectComponent initialSchedule={initialSchedule} onChange={setSchedule} />
+              </View>
             </View>
 
             <View style={styles.modalActions}>
@@ -105,7 +115,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     width: "100%",
-    height: "70%",
+    height: "80%",
     borderRadius: 12,
     padding: 16,
     backgroundColor: "rgba(30,30,30,0.98)",

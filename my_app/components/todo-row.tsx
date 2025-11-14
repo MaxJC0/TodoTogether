@@ -8,6 +8,7 @@ export type TodoRowProps = {
   id: string;
   title: string;
   done?: boolean;
+  dueAt?: number;
   onToggleDone?: (id: string, next: boolean) => void;
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
@@ -22,7 +23,14 @@ export default function TodoRow({
   onEdit = () => {},
   onDelete = () => {},
   onDrag = () => {},
+  dueAt,
 }: TodoRowProps) {
+  const dueLabel = (() => {
+    if (!dueAt) return "";
+    const d = new Date(dueAt);
+    const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  })();
   return (
     <View style={[styles.row, done && styles.rowDone]}> 
       {/* Left: checkbox + title */}
@@ -39,9 +47,16 @@ export default function TodoRow({
           color={done ? "#10b981" : "#9aa0a6"}
           style={{ marginRight: 10 }}
         />
-        <ThemedText style={[styles.title, done && styles.titleDone]} numberOfLines={2}>
-          {title}
-        </ThemedText>
+        <View style={{ flexShrink: 1 }}>
+          {!!dueLabel && (
+            <ThemedText style={styles.meta} numberOfLines={1}>
+              {dueLabel}
+            </ThemedText>
+          )}
+          <ThemedText style={[styles.title, done && styles.titleDone]} numberOfLines={2}>
+            {title}
+          </ThemedText>
+        </View>
       </Pressable>
 
       {/* Right: actions */}
@@ -89,6 +104,11 @@ const styles = StyleSheet.create({
   },
   title: {
     flexShrink: 1,
+  },
+  meta: {
+    fontSize: 11,
+    opacity: 0.7,
+    marginBottom: 2,
   },
   titleDone: {
     textDecorationLine: "line-through",
