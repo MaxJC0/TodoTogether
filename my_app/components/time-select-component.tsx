@@ -116,9 +116,9 @@ export default function TimeSelectComponent({ label = "Schedule", initialSchedul
       </View>
 
       {mode === "due" && (
-        <View style={{ gap: 10 }}>
-          <InputDate mode="any" value={dueDate} onChange={setDueDate} />
-          <InputTime value={dueTime} onChange={setDueTime} />
+        <View style={{ gap: 12 }}>
+          <InputDate mode="any" label="Due date" value={dueDate} onChange={setDueDate} />
+          <InputTime label="Time" value={dueTime} onChange={setDueTime} />
         </View>
       )}
 
@@ -139,15 +139,28 @@ export default function TimeSelectComponent({ label = "Schedule", initialSchedul
             </View>
           </View>
           {(repeatCycle === "week" || repeatCycle === "biweek") && (
-            <InputDate mode="week" value={repeatDow} onChange={setRepeatDow} />
+            <InputDate
+              mode="week"
+              label={repeatCycle === "biweek" ? "Pick weekday (every other week)" : "Pick weekday"}
+              value={repeatDow}
+              onChange={setRepeatDow}
+            />
           )}
           {repeatCycle === "month" && (
-            <InputDate mode="month-day" value={repeatDom} onChange={setRepeatDom} />
+            <InputDate mode="month-day" label="Day of month" value={repeatDom} onChange={setRepeatDom} />
           )}
           {repeatCycle === "year" && (
-            <InputDate mode="year-day" value={{ month: repeatMonth, day: repeatDom }} onChange={(v) => { setRepeatMonth(v.month); setRepeatDom(v.day); }} />
+            <InputDate
+              mode="year-day"
+              label="Month & day"
+              value={{ month: repeatMonth, day: repeatDom }}
+              onChange={(v) => {
+                setRepeatMonth(v.month);
+                setRepeatDom(v.day);
+              }}
+            />
           )}
-          <InputTime value={repeatTime} onChange={setRepeatTime} />
+          <InputTime label="Time of day" value={repeatTime} onChange={setRepeatTime} />
         </View>
       )}
     </View>

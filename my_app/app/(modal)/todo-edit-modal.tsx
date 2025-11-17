@@ -4,6 +4,7 @@ import { ThemedText } from "@/components/themed-text";
 import InputName from "@/components/input-name";
 import DropdownTodoCategory from "@/components/dropdown-todo-category";
 import TimeSelectComponent, { RepeatRule, Schedule } from "@/components/time-select-component";
+import { ScrollView } from "react-native-gesture-handler";
 
 export type TodoEditModalProps = {
   visible: boolean;
@@ -57,7 +58,9 @@ export default function TodoEditModal({ visible, initialName = "", initialSchedu
       >
         <Pressable style={{ width: "100%", height: "100%" }} onPress={() => {}}>
           <View style={styles.modalCard}>
-            <View style={styles.modalBody}>
+            <ScrollView
+             style={styles.modalBody}
+             >
               <ThemedText type="title" style={styles.modalTitle}>
                 {initialName ? "Edit todo" : "New todo"}
               </ThemedText>
@@ -83,7 +86,7 @@ export default function TodoEditModal({ visible, initialName = "", initialSchedu
               <View style={styles.section}>
                 <TimeSelectComponent initialSchedule={initialSchedule} onChange={setSchedule} />
               </View>
-            </View>
+            </ScrollView>
 
             <View style={styles.modalActions}>
               <View style={styles.rightActions}>
@@ -126,6 +129,9 @@ const styles = StyleSheet.create({
   },
   modalBody: {
     flex: 1,
+  },
+  modalBodyContent: {
+    paddingBottom: 24,
   },
   modalTitle: {
     marginBottom: 10,
