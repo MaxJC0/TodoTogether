@@ -1,23 +1,23 @@
-import Tasklist from "@/components/task-list";
-import { TreeNode, addNode, flattenTree, toggle, treeData } from "@/components/task-row";
-import { ThemedView } from "@/components/themed-view";
+import Tasklist from "@/components/todo/task-list";
+import { TreeNode, addNode, flattenTree, toggle, treeData } from "@/components/todo/task-row";
+import { ThemedView } from "@/components/shared/themed-view";
 import { useState } from 'react';
 import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 
 
 export default function RecursiveTaskList() {
-  
+
   //expanded node
-  const[expanded,setExpanded] = useState<string[]>([]);
+  const [expanded, setExpanded] = useState<string[]>([]);
   //task array, update (usestate method updates everytime something changes -> interactive dynamic changes)  
-  const[tasks, setTasks] = useState<TreeNode[]>(treeData);
+  const [tasks, setTasks] = useState<TreeNode[]>(treeData);
   //favourites
-  const[favourites,setFavorites] = useState<string[]>([]);
+  const [favourites, setFavorites] = useState<string[]>([]);
   //task name
-  const[newTaskName,setNewTaskName] = useState<string>('');
+  const [newTaskName, setNewTaskName] = useState<string>('');
   //selected task to add to
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
-  
+
   const toggleExpanded = (id: string) => {
     setExpanded(prev => toggle(prev, id))
   };
@@ -28,51 +28,51 @@ export default function RecursiveTaskList() {
 
   const editTasklist = () => {
     //do nothing
-    if (newTaskName.trim() === '') { 
+    if (newTaskName.trim() === '') {
       return;
     };
 
     //selected a task to add task to
-    if(selectedTaskId){
-      const updatedTaskList =  addNode(tasks, selectedTaskId, newTaskName);
+    if (selectedTaskId) {
+      const updatedTaskList = addNode(tasks, selectedTaskId, newTaskName);
       setTasks(updatedTaskList);
-      
+
       //expand list after adding, take the prev (current) state and ask if its included
       //IMPORTANT: if u use if(.includes()) and then toggleExpanded it can be an old wrong state, thats why u first take the prev and then ask
       setExpanded(prevExpandedList => {
-        if(prevExpandedList.includes(selectedTaskId)) {
+        if (prevExpandedList.includes(selectedTaskId)) {
           return prevExpandedList;
         }
         return [...prevExpandedList, selectedTaskId];
       });
     }
     else {
-      const updatedTaskList =  addNode(tasks,'', newTaskName);
+      const updatedTaskList = addNode(tasks, '', newTaskName);
       setTasks(updatedTaskList);
     }
-  
+
     setNewTaskName('');
     setSelectedTaskId(null);
   };
 
   //flat tree here
   const flatData = flattenTree(tasks, 0, expanded);
-  
+
   return (
     <TouchableWithoutFeedback onPress={() => {
       setSelectedTaskId(null);
       Keyboard.dismiss();
     }}>
-      <ThemedView style = {styles.Container}>
+      <ThemedView style={styles.Container}>
         <Tasklist
           data={flatData}
           expanded={expanded}
           selectedTaskId={selectedTaskId}
           toggleExpanded={toggleExpanded}
-          favourites= {favourites}
+          favourites={favourites}
           setSelectedTaskId={setSelectedTaskId}
           toggleFavourite={toggleFavourites}
-        />  
+        />
         <TouchableWithoutFeedback>
           <ThemedView>
             <TextInput
@@ -80,24 +80,24 @@ export default function RecursiveTaskList() {
               placeholder={selectedTaskId ? "Neue Teilaufgabe..." : "Neue Aufgabe..."}
               value={newTaskName}
               onChangeText={setNewTaskName}
-            />       
+            />
             <TouchableOpacity style={styles.button} onPress={() => editTasklist()}>
               <Text style={styles.buttonText}>+ Task hinzufügen</Text>
             </TouchableOpacity>
           </ThemedView>
         </TouchableWithoutFeedback>
-      </ThemedView>  
+      </ThemedView>
     </TouchableWithoutFeedback>
-    );
-  }
-  
+  );
+}
+
 
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    paddingHorizontal: 20, 
+    paddingHorizontal: 20,
     paddingBottom: 20,
-    backgroundColor: "#1c1c1e", 
+    backgroundColor: "#1c1c1e",
   },
   input: {
     backgroundColor: '#2c2c2e',
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  
+
 });
 
 

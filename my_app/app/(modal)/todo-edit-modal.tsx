@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Pressable, StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
-import { ThemedText } from "@/components/themed-text";
-import InputName from "@/components/input-name";
-import DropdownTodoCategory from "@/components/dropdown-todo-category";
-import TimeSelectComponent, { RepeatRule, Schedule } from "@/components/time-select-component";
+import { ThemedText } from "@/components/shared/themed-text";
+import InputName from "@/components/inputs/input-name";
+import DropdownTodoCategory from "@/components/dropdowns/dropdown-todo-category";
+import TimeSelectComponent, { RepeatRule, Schedule } from "@/components/inputs/time-select-component";
 import { ScrollView } from "react-native-gesture-handler";
 
 export type TodoEditModalProps = {
@@ -56,11 +56,11 @@ export default function TodoEditModal({ visible, initialName = "", initialSchedu
         style={[styles.modalOverlay, { width: screenW, height: screenH }]}
         onPress={onCancel}
       >
-        <Pressable style={{ width: "100%", height: "100%" }} onPress={() => {}}>
+        <Pressable style={{ width: "100%", height: "100%" }} onPress={() => { }}>
           <View style={styles.modalCard}>
             <ScrollView
-             style={styles.modalBody}
-             >
+              style={styles.modalBody}
+            >
               <ThemedText type="title" style={styles.modalTitle}>
                 {initialName ? "Edit todo" : "New todo"}
               </ThemedText>
@@ -78,8 +78,8 @@ export default function TodoEditModal({ visible, initialName = "", initialSchedu
               </View>
 
               <View style={styles.section}>
-                <DropdownTodoCategory 
-                  selected={category} 
+                <DropdownTodoCategory
+                  selected={category}
                   onChange={setCategory} />
               </View>
 

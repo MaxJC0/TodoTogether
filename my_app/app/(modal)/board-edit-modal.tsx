@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Modal,
   View,
@@ -7,14 +7,13 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { ThemedText } from "@/components/themed-text";
-import DropdownBoardMembers from "@/components/dropdown-board-members";
-import ToggleNotification from "@/components/toggle-notification";
+import { ThemedText } from "@/components/shared/themed-text";
+import DropdownBoardMembers from "@/components/dropdowns/dropdown-board-members";
+import ToggleNotification from "@/components/inputs/toggle-notification";
 import ButtonSaveBoard, { ButtonSaveBoardHandle } from "@/components/buttons/button-save-board";
 import ButtonDeleteBoard from "@/components/buttons/button-delete-board";
-import { useRef } from "react";
-import InputName from "@/components/input-name";
-import ColorPicker from "@/components/color-picker";
+import InputName from "@/components/inputs/input-name";
+import ColorPicker from "@/components/inputs/color-picker";
 
 type Props = {
   visible: boolean;
@@ -79,87 +78,87 @@ export default function EditBoardModal({
         ]}
         onPress={onCancel}
       >
-        <Pressable style={{ width: "100%", height: "100%" }} onPress={() => {}}>
-            <View style={styles.modalCard}>
-              <View style={styles.modalBody}>
-                <ThemedText type="title" style={styles.modalTitle}>
-                  Edit board
-                </ThemedText>
+        <Pressable style={{ width: "100%", height: "100%" }} onPress={() => { }}>
+          <View style={styles.modalCard}>
+            <View style={styles.modalBody}>
+              <ThemedText type="title" style={styles.modalTitle}>
+                Edit board
+              </ThemedText>
 
-                <View style={styles.section}>
-                  <ThemedText style={styles.sectionLabel}>Name</ThemedText>
-                  <InputName
-                    value={name}
-                    onChangeText={(text) => setName(text.slice(0, 40))}
-                    placeholder="Board name"
-                    autoFocus
-                    maxLength={50}
-                    onSubmitEditing={() => saveBtnRef.current?.submit()}
-                  />
-                </View>
-
-                {/* People selector */}
-                <View style={styles.section}>
-                  <DropdownBoardMembers selected={selectedPeople} onChange={setSelectedPeople} />
-                </View>
-
-                {/* Notifications toggle */}
-                <View style={styles.section}>
-                  <ToggleNotification
-                    value={notificationsEnabled}
-                    onChange={setNotificationsEnabled}
-                  />
-                </View>
-
-                {/* Color selector */}
-                <View style={styles.section}>
-                  <ThemedText style={styles.sectionLabel}>Color</ThemedText>
-                  <ColorPicker
-                    colors={[
-                        "rgba(21, 23, 24, 1)", 
-                        "rgba(59, 130, 246, 1)", 
-                        "rgba(16, 185, 129, 1)", 
-                        "rgba(245, 158, 11, 1)", 
-                        "rgba(239, 68, 68, 1)", 
-                        "rgba(168, 85, 247, 1)"
-                      ]}
-                    value={color}
-                    onChange={setColor}
-                  />
-                </View>
+              <View style={styles.section}>
+                <ThemedText style={styles.sectionLabel}>Name</ThemedText>
+                <InputName
+                  value={name}
+                  onChangeText={(text) => setName(text.slice(0, 40))}
+                  placeholder="Board name"
+                  autoFocus
+                  maxLength={50}
+                  onSubmitEditing={() => saveBtnRef.current?.submit()}
+                />
               </View>
 
-              <View style={styles.modalActions}>
-                <View style={styles.leftActions}>
-                  {boardId && onDelete && (
-                    <ButtonDeleteBoard
-                      boardId={boardId}
-                      boardName={initialName}
-                      onDelete={(id) => {
-                        onDelete(id);
-                        onCancel();
-                      }}
-                      label="Delete"
-                    />
-                  )}
-                </View>
-                <View style={styles.rightActions}>
-                  <TouchableOpacity onPress={onCancel} style={[styles.btn, styles.btnSecondary]}>
-                    <ThemedText>Cancel</ThemedText>
-                  </TouchableOpacity>
-                  <ButtonSaveBoard
-                    ref={saveBtnRef}
-                    name={name}
-                    members={selectedPeople}
-                    notifications={notificationsEnabled}
-                    color={color}
-                    onSave={({ name, members, notifications, color }) =>
-                      onSave({ name, members, notifications, color })
-                    }
-                  />
-                </View>
+              {/* People selector */}
+              <View style={styles.section}>
+                <DropdownBoardMembers selected={selectedPeople} onChange={setSelectedPeople} />
+              </View>
+
+              {/* Notifications toggle */}
+              <View style={styles.section}>
+                <ToggleNotification
+                  value={notificationsEnabled}
+                  onChange={setNotificationsEnabled}
+                />
+              </View>
+
+              {/* Color selector */}
+              <View style={styles.section}>
+                <ThemedText style={styles.sectionLabel}>Color</ThemedText>
+                <ColorPicker
+                  colors={[
+                    "rgba(21, 23, 24, 1)",
+                    "rgba(59, 130, 246, 1)",
+                    "rgba(16, 185, 129, 1)",
+                    "rgba(245, 158, 11, 1)",
+                    "rgba(239, 68, 68, 1)",
+                    "rgba(168, 85, 247, 1)"
+                  ]}
+                  value={color}
+                  onChange={setColor}
+                />
               </View>
             </View>
+
+            <View style={styles.modalActions}>
+              <View style={styles.leftActions}>
+                {boardId && onDelete && (
+                  <ButtonDeleteBoard
+                    boardId={boardId}
+                    boardName={initialName}
+                    onDelete={(id) => {
+                      onDelete(id);
+                      onCancel();
+                    }}
+                    label="Delete"
+                  />
+                )}
+              </View>
+              <View style={styles.rightActions}>
+                <TouchableOpacity onPress={onCancel} style={[styles.btn, styles.btnSecondary]}>
+                  <ThemedText>Cancel</ThemedText>
+                </TouchableOpacity>
+                <ButtonSaveBoard
+                  ref={saveBtnRef}
+                  name={name}
+                  members={selectedPeople}
+                  notifications={notificationsEnabled}
+                  color={color}
+                  onSave={({ name, members, notifications, color }) =>
+                    onSave({ name, members, notifications, color })
+                  }
+                />
+              </View>
+            </View>
+          </View>
         </Pressable>
       </Pressable>
     </Modal>

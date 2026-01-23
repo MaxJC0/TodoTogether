@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemedText } from "@/components/themed-text";
+import { ThemedText } from "@/components/shared/themed-text";
 import { StyleSheet, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import ButtonFavorite from "@/components/buttons/button-favorite";
@@ -22,10 +22,10 @@ export default function BoardRow({
   name,
   color,
   isFavorite = false,
-  onToggleSelect = () => {},
-  onToggleFavorite = () => {},
-  onEdit = () => {},
-  onDrag = () => {},
+  onToggleSelect = () => { },
+  onToggleFavorite = () => { },
+  onEdit = () => { },
+  onDrag = () => { },
 }: Props) {
   // Soften the background color while preserving the border color
   const softenedBg = color ? hexToRgba(color, 0.12) : undefined;
@@ -35,14 +35,14 @@ export default function BoardRow({
       accessibilityLabel={`open-board-${id}`}
       onPress={() => router.push({ pathname: "/board/[id]", params: { id, name } })}
       style={[
-      styles.row,
-      color
-        ? {
+        styles.row,
+        color
+          ? {
             backgroundColor: softenedBg,
             borderColor: "#ACABAD",
           }
-        : null,
-    ]}
+          : null,
+      ]}
     >
       <ThemedText style={styles.boardName}>{name}</ThemedText>
 

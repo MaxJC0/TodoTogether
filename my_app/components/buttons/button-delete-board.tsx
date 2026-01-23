@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/shared/themed-text';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
 type Props = {

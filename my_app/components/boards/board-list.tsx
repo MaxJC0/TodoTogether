@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { ThemedText } from "@/components/themed-text";
+import { ThemedText } from "@/components/shared/themed-text";
 import ButtonPlus from "@/components/buttons/button-add-board";
-import BoardRow from "@/components/board-row";
+import BoardRow from "@/components/boards/board-row";
 import EditBoardModal from "@/app/(modal)/board-edit-modal";
 
 export type Board = {
@@ -79,12 +79,12 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
           prev.map((b) =>
             b.id === editingBoardId
               ? {
-                  ...b,
-                  name: data.name,
-                  members: data.members,
-                  notificationsEnabled: data.notifications,
-                  ...(data.color ? { color: data.color } : {}),
-                }
+                ...b,
+                name: data.name,
+                members: data.members,
+                notificationsEnabled: data.notifications,
+                ...(data.color ? { color: data.color } : {}),
+              }
               : b
           )
         );
@@ -185,7 +185,7 @@ export default function BoardList({ boards, setBoards, searchQuery }: Props) {
         keyExtractor={(item: Board) => item.id}
         renderItem={renderItem as any}
         style={styles.list}
-        containerStyle={{ flex: 1}}
+        containerStyle={{ flex: 1 }}
         contentContainerStyle={styles.listContent}
         onDragBegin={onDragBegin}
         onDragEnd={onDragEnd}

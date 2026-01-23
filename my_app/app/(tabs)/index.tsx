@@ -5,10 +5,10 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import BoardList from "@/components/board-list";
-import InputSearchBar from "@/components/input-searchbar";
+import { ThemedText } from "@/components/shared/themed-text";
+import { ThemedView } from "@/components/shared/themed-view";
+import BoardList from "@/components/boards/board-list";
+import InputSearchBar from "@/components/inputs/input-searchbar";
 
 type Board = { id: string; name: string };
 
@@ -31,13 +31,13 @@ export default function TestScreen() {
             Your Boards
           </ThemedText>
 
-            <View style={styles.listContainer}>
-              <BoardList
-                boards={boards}
-                setBoards={setBoards}
-                searchQuery={searchQuery}
-              />
-            </View>
+          <View style={styles.listContainer}>
+            <BoardList
+              boards={boards}
+              setBoards={setBoards}
+              searchQuery={searchQuery}
+            />
+          </View>
 
           <InputSearchBar
             value={searchQuery}
