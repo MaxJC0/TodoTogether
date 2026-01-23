@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { StyleSheet, View, Pressable, Animated, Easing } from "react-native";
-import { ThemedText } from "@/components/themed-text";
+import { ThemedText } from "@/components/shared/themed-text";
 
 export type ToggleNotificationProps = {
   value: boolean;

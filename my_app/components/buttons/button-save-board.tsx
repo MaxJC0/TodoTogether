@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useMemo } from 'react';
 import { StyleSheet, TouchableOpacity, ViewStyle, StyleProp } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/shared/themed-text';
 
 export type SaveBoardPayload = {
   name: string;

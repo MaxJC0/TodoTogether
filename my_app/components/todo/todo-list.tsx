@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
+import { ThemedText } from "@/components/shared/themed-text";
+import { ThemedView } from "@/components/shared/themed-view";
 
-import TodoRow from "@/components/todo-row";
-import ButtonPlus from "./buttons/button-add-board";
-import ButtonDeleteFinishedTodo from "./buttons/button-delete-finished-todo";
+import TodoRow from "@/components/todo/todo-row";
+import ButtonPlus from "@/components/buttons/button-add-board";
+import ButtonDeleteFinishedTodo from "@/components/buttons/button-delete-finished-todo";
 import TodoEditModal from "@/app/(modal)/todo-edit-modal";
 
 export type TodoListProps = {
@@ -145,11 +145,11 @@ export default function TodoList({ initialTitle }: TodoListProps) {
         prev.map((it) =>
           it.id === editingId
             ? {
-                ...it,
-                title: name,
-                dueAt: schedule?.dueAt ?? it.dueAt,
-                repeat: schedule?.repeat ?? it.repeat,
-              }
+              ...it,
+              title: name,
+              dueAt: schedule?.dueAt ?? it.dueAt,
+              repeat: schedule?.repeat ?? it.repeat,
+            }
             : it
         )
       );
@@ -253,7 +253,7 @@ export default function TodoList({ initialTitle }: TodoListProps) {
           showsVerticalScrollIndicator={true}
           ListEmptyComponent={
             <ThemedText style={{ opacity: 0.8 }}>
-                No tasks yet
+              No tasks yet
             </ThemedText>
           }
         />

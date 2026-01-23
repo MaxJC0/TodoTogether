@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, View, ScrollView } from "react-native";
-import { ThemedText } from "@/components/themed-text";
+import { ThemedText } from "@/components/shared/themed-text";
 
 export type DropdownBoardMembersProps = {
   selected: string[];
@@ -81,79 +81,79 @@ export default function DropdownBoardMembers({
 }
 
 const styles = StyleSheet.create({
-    sectionLabel: {
-        marginBottom: 8,
-        opacity: 0.9,
-    },
-    dropdownWrap: {
-        position: "relative",
-    },
-    dropdown: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        paddingVertical: 10,
-        paddingHorizontal: 12,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        backgroundColor: "rgba(255,255,255,0.06)",
-    },
-    dropdownText: {
-        flex: 1,
-        marginRight: 8,
-        opacity: 0.9,
-    },
-    dropdownChevron: {
-        opacity: 0.7,
-    },
+  sectionLabel: {
+    marginBottom: 8,
+    opacity: 0.9,
+  },
+  dropdownWrap: {
+    position: "relative",
+  },
+  dropdown: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    backgroundColor: "rgba(255,255,255,0.06)",
+  },
+  dropdownText: {
+    flex: 1,
+    marginRight: 8,
+    opacity: 0.9,
+  },
+  dropdownChevron: {
+    opacity: 0.7,
+  },
   dropdownList: {
-        position: "absolute",
-        left: 0,
-        right: 0,
-        top: "100%",
-        marginTop: 8,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        backgroundColor: "#272627",
-        zIndex: 10,
-        elevation: 6,
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 0, height: 6 },
-        shadowRadius: 10,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: "100%",
+    marginTop: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    backgroundColor: "#272627",
+    zIndex: 10,
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 10,
     maxHeight: 200,
-    },
+  },
   dropdownListContent: {
     paddingVertical: 4,
   },
-    dropdownItem: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingVertical: 10,
-        paddingHorizontal: 12,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: "rgba(255,255,255,0.12)",
-    },
-    checkbox: {
-        width: 20,
-        height: 20,
-        borderRadius: 4,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        marginRight: 10,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "transparent",
-    },
-    checkboxChecked: {
-        backgroundColor: "#ACABAD",
-        borderColor: "#fff",
-    },
-    checkboxMark: {
-        color: "#fff",
-        fontSize: 12,
-        lineHeight: 12,
-    },
+  dropdownItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(255,255,255,0.12)",
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    marginRight: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  checkboxChecked: {
+    backgroundColor: "#ACABAD",
+    borderColor: "#fff",
+  },
+  checkboxMark: {
+    color: "#fff",
+    fontSize: 12,
+    lineHeight: 12,
+  },
 });

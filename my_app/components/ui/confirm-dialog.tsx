@@ -8,7 +8,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import { ThemedText } from '@/components/themed-text';
+import { ThemedText } from '@/components/shared/themed-text';
 
 type Props = {
   visible: boolean;
@@ -34,7 +34,7 @@ export default function ConfirmDialog({
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
       <Pressable style={styles.overlay} onPress={onCancel}>
-        <Pressable style={{ width: '100%', height: '100%' }} onPress={() => {}}>
+        <Pressable style={{ width: '100%', height: '100%' }} onPress={() => { }}>
           <KeyboardAvoidingView
             behavior={Platform.select({ ios: 'padding', android: undefined })}
             style={styles.center}

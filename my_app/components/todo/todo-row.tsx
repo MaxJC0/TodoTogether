@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Pressable, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { ThemedText } from "@/components/themed-text";
+import { ThemedText } from "@/components/shared/themed-text";
 import ButtonDrag from "@/components/buttons/button-drag";
 
 export type TodoRowProps = {
@@ -19,10 +19,10 @@ export default function TodoRow({
   id,
   title,
   done = false,
-  onToggleDone = () => {},
-  onEdit = () => {},
-  onDelete = () => {},
-  onDrag = () => {},
+  onToggleDone = () => { },
+  onEdit = () => { },
+  onDelete = () => { },
+  onDrag = () => { },
   dueAt,
 }: TodoRowProps) {
   const dueLabel = (() => {
@@ -32,7 +32,7 @@ export default function TodoRow({
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
   })();
   return (
-    <View style={[styles.row, done && styles.rowDone]}> 
+    <View style={[styles.row, done && styles.rowDone]}>
       {/* Left: checkbox + title */}
       <Pressable
         accessibilityRole="checkbox"
@@ -70,7 +70,7 @@ export default function TodoRow({
         >
           <Ionicons name="create-outline" size={22} color="#9aa0a6" />
         </TouchableOpacity>
-        
+
         <ButtonDrag
           accessibilityLabel={`drag-todo-${id}`}
           onLongPress={() => onDrag(id)}

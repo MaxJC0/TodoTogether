@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, View, ScrollView } from "react-native";
-import { ThemedText } from "@/components/themed-text";
+import { ThemedText } from "@/components/shared/themed-text";
 
 export type DropdownTodoCategoryProps = {
   selected: string;

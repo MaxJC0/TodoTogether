@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, StyleSheet, View } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { ThemedText } from "@/components/themed-text";
-import InputName from "@/components/input-name";
+import { ThemedText } from "@/components/shared/themed-text";
+import InputName from "@/components/inputs/input-name";
 
 export type InputTimeProps = {
   label?: string;

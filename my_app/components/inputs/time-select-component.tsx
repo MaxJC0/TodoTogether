@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
-import { ThemedText } from "@/components/themed-text";
-import InputTime from "@/components/input-time";
-import InputDate from "@/components/input-date";
+import { ThemedText } from "@/components/shared/themed-text";
+import InputTime from "@/components/inputs/input-time";
+import InputDate from "@/components/inputs/input-date";
 
 export type RepeatRule = {
   cycle: "day" | "week" | "biweek" | "month" | "year";
