@@ -21,6 +21,11 @@ type Props = {
   onCancel: () => void;
 };
 
+/**
+ * A confirmation dialog modal.
+ * Displays a title, optional message, and Confirm/Cancel buttons.
+ * Calls onConfirm or onCancel based on user action.
+ */
 export default function ConfirmDialog({
   visible,
   title,

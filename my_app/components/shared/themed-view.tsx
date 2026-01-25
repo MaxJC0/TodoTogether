@@ -7,6 +7,10 @@ export type ThemedViewProps = ViewProps & {
   darkColor?: string;
 };
 
+/**
+ * A wrapper around View that applies themed background colors.
+ * Accepts optional lightColor and darkColor props to override theme defaults.
+ */
 export function ThemedView({ style, lightColor, darkColor, ...otherProps }: ThemedViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
 

@@ -8,6 +8,10 @@ export type ThemedTextProps = TextProps & {
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
 };
 
+/**
+ * A text component that adapts its color based on the current theme (light or dark).
+ * Supports different text styles such as default, title, subtitle, and link.
+ */
 export function ThemedText({
   style,
   lightColor,

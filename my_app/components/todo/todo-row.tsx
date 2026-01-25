@@ -15,6 +15,11 @@ export type TodoRowProps = {
   onDrag?: (id: string) => void;
 };
 
+/**
+ * A single row representing a todo item in a list.
+ * Displays the todo title, due date, checkbox, edit button, and drag handle.
+ * Calls provided callbacks for toggling done status, editing, deleting, and dragging.
+ */
 export default function TodoRow({
   id,
   title,

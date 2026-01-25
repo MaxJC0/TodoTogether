@@ -13,6 +13,11 @@ export type TodoListProps = {
   initialTitle: string;
 };
 
+/**
+ * Todo list component with drag-and-drop reordering, task creation/editing,
+ * completion toggling, and recurring tasks support.
+ * Displays a list of todo items with a header and footer.
+ */
 export default function TodoList({ initialTitle }: TodoListProps) {
   type RepeatRule = {
     cycle: "day" | "week" | "biweek" | "month" | "year";

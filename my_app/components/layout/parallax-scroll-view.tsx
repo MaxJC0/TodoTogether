@@ -18,6 +18,11 @@ type Props = PropsWithChildren<{
   headerBackgroundColor: { dark: string; light: string };
 }>;
 
+/**
+ * A scrollable view with a parallax header image.
+ * The header image scales and translates based on scroll position.
+ * The content is displayed below the header.
+ */
 export default function ParallaxScrollView({
   children,
   headerImage,
