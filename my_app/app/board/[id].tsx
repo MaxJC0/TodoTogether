@@ -5,6 +5,7 @@ import { ThemedView } from "@/components/shared/themed-view";
 import PagerView from "react-native-pager-view";
 import TodoList from "@/components/todo/todo-list";
 import ButtonPlus from "@/components/buttons/button-add-board";
+import ButtonDelete from "@/components/buttons/button-delete-finished-todo";
 
 /**
  * Screen component for displaying a board with multiple todo lists.
@@ -73,6 +74,23 @@ export default function BoardScreen() {
         }}
         label="Add TodoList"
         style={{ position: "absolute", bottom: 24, right: 24 }}
+      />
+
+      <ButtonDelete
+        onPress={() => {
+          setLists((prev) => {
+            if (prev.length <= 1) return prev;
+            const newLists = prev.slice(0, -1);
+            if (currentPage >= newLists.length) {
+              setCurrentPage(newLists.length - 1);
+              pagerRef.current?.setPage(newLists.length - 1);
+            }
+            return newLists;
+          });
+        }}
+        label="Delete TodoList"
+        style={{ position: "absolute", bottom: 24, left: 24 }}
+        disabled={lists.length <= 1}
       />
 
     </>
