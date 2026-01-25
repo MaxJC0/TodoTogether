@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { ThemedView } from "@/components/shared/themed-view";
@@ -16,6 +16,20 @@ export default function BoardScreen() {
     typeof name === "string" && name.length > 0 ? name : `Board ${id}`;
 
   const [lists, setLists] = useState([0]);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const pagerRef = useRef<PagerView>(null);
+
+  useEffect(() => {
+    if (lists.length > 1) {
+      const newIndex = lists.length - 1;
+
+      setTimeout(() => {
+        pagerRef.current?.setPage(newIndex);
+        setCurrentPage(newIndex);
+      }, 50);
+    }
+  }, [lists.length]);
 
   return (
     <>
@@ -27,13 +41,30 @@ export default function BoardScreen() {
       />
 
       <ThemedView style={styles.container}>
-        <PagerView style={{ flex: 1 }} initialPage={0}>
+        <PagerView
+          ref={pagerRef}
+          style={{ flex: 1 }}
+          initialPage={0}
+          onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
+        >
           {lists.map((listId) => (
             <View key={`list-${listId}`} style={{ flex: 1 }}>
               <TodoList initialTitle={`${initialTitle} - List ${listId + 1}`} />
             </View>
           ))}
         </PagerView>
+
+        <View style={styles.indicatorContainer}>
+          {lists.map((_, index) => (
+            <View
+              key={`dot-${index}`}
+              style={[
+                styles.indicatorDot,
+                currentPage === index && styles.indicatorDotActive,
+              ]}
+            />
+          ))}
+        </View>
       </ThemedView>
 
       <ButtonPlus
@@ -43,6 +74,7 @@ export default function BoardScreen() {
         label="Add TodoList"
         style={{ position: "absolute", bottom: 24, right: 24 }}
       />
+
     </>
   );
 }
@@ -52,5 +84,28 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 24,
+  },
+
+  indicatorContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 22,
+    paddingBottom: 40,
+    backgroundColor: "rgba(21, 23, 24, 1)",
+    gap: 8,
+  },
+
+  indicatorDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "gray",
+    opacity: 0.4,
+  },
+
+  indicatorDotActive: {
+    backgroundColor: "white",
+    opacity: 1,
   },
 });
