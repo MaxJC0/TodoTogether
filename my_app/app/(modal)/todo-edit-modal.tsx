@@ -15,6 +15,11 @@ export type TodoEditModalProps = {
   onCancel: () => void;
 };
 
+/**
+ * Modal for creating or editing a todo item.
+ * Allows setting the name, category, and schedule (due date, time, repeat).
+ * Calls onSave with the todo data when saved, or onCancel when cancelled.
+ */
 export default function TodoEditModal({ visible, initialName = "", initialSchedule, onSave, onCancel }: TodoEditModalProps) {
   const [name, setName] = useState(initialName);
   const CATEGORIES = ["General", "Work", "Personal", "Errand", "Idea", "Urgent"] as const;

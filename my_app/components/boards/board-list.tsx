@@ -20,6 +20,11 @@ type Props = {
   searchQuery: string;
 };
 
+/**
+ * List of boards with drag-and-drop reordering, favorite toggling, and editing.
+ * Displays favorites at the top, allows searching/filtering boards.
+ * Supports creating new boards via a modal.
+ */
 export default function BoardList({ boards, setBoards, searchQuery }: Props) {
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
   const [editingBoardId, setEditingBoardId] = useState<string | null>(null);

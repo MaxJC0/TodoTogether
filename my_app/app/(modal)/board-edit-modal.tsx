@@ -27,6 +27,11 @@ type Props = {
   onCancel: () => void;
 };
 
+/**
+ * Modal for editing a board's settings.
+ * Allows changing the name, members, notification settings, and color.
+ * Calls onSave with updated data, onDelete if deleted, or onCancel if cancelled.
+ */
 export default function EditBoardModal({
   visible,
   initialName,

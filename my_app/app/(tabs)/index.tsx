@@ -12,6 +12,10 @@ import InputSearchBar from "@/components/inputs/input-searchbar";
 
 type Board = { id: string; name: string };
 
+/**
+ * Test screen displaying a list of boards with a search bar.
+ * Allows searching and filtering the list of boards.
+ */
 export default function TestScreen() {
   const [boards, setBoards] = useState<Board[]>([
     { id: "1", name: "Board Alpha" },

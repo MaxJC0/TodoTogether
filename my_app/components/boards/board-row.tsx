@@ -17,6 +17,12 @@ type Props = {
   onDrag?: (id: string) => void;
 };
 
+/**
+ * A single row representing a board in a list.
+ * Displays the board name, favorite button, edit button, and drag handle.
+ * Supports custom background color and favorite status.
+ * Calls provided callbacks for toggling favorite, editing, and dragging.
+ */
 export default function BoardRow({
   id,
   name,

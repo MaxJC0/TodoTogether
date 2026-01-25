@@ -11,6 +11,10 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
+/**
+ * Button that deletes a board after user confirmation.
+ * Displays a confirmation dialog before calling onDelete with the board ID.
+ */
 export default function ButtonDeleteBoard({
   boardId,
   boardName,
