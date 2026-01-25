@@ -8,6 +8,11 @@ type Props = {
   accessibilityLabel?: string;
 };
 
+/**
+ * Button that toggles the favorite status of an item.
+ * Displays a filled heart icon if isFavorite is true, otherwise an outlined heart.
+ * Calls onPress when tapped.
+ */
 export default function ButtonFavorite({ isFavorite, onPress, accessibilityLabel }: Props) {
   return (
     <TouchableOpacity

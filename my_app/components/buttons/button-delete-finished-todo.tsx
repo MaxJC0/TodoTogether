@@ -9,6 +9,11 @@ export type ButtonDeleteFinishedTodoProps = {
   disabled?: boolean;
 };
 
+/**
+ * A circular button with a trash icon, used to delete finished todos.
+ * Calls onPress when tapped, unless disabled.
+ * Accepts an optional label for accessibility and custom styles.
+ */
 export default function ButtonDeleteFinishedTodo({
   onPress,
   label = "Delete done",

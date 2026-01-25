@@ -22,6 +22,11 @@ export type TimeSelectComponentProps = {
 
 type Mode = "none" | "due" | "repeat";
 
+/**
+ * Component for selecting a schedule for a todo item.
+ * Allows choosing between no schedule, a due date/time, or a repeating schedule.
+ * Calls onChange with the selected schedule.
+ */
 export default function TimeSelectComponent({ label = "Schedule", initialSchedule, onChange }: TimeSelectComponentProps) {
   const [mode, setMode] = useState<Mode>("none");
   // due date

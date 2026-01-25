@@ -7,6 +7,10 @@ type Props = {
   accessibilityLabel?: string;
 };
 
+/**
+ * Button that triggers editing a board.
+ * Displays an edit icon and calls onPress when tapped.
+ */
 export default function ButtonEditBoard({ onPress, accessibilityLabel }: Props) {
   return (
     <TouchableOpacity

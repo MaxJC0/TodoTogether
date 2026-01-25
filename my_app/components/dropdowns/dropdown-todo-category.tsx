@@ -19,6 +19,11 @@ const DEFAULT_CATEGORIES: string[] = [
   "Urgent",
 ];
 
+/**
+ * Dropdown component for selecting a todo category.
+ * Displays a list of categories with radio buttons to select one.
+ * Calls onChange with the selected category.
+ */
 export default function DropdownTodoCategory({
   selected,
   onChange,

@@ -19,6 +19,11 @@ const DEFAULT_PEOPLE: string[] = [
   "Fatima Khan",
 ];
 
+/**
+ * Dropdown component for selecting board members.
+ * Displays a list of people with checkboxes to select/deselect.
+ * Calls onChange with the updated list of selected members.
+ */
 export default function DropdownBoardMembers({
   selected,
   onChange,

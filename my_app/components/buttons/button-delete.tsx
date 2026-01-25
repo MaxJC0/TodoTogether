@@ -13,6 +13,11 @@ type ButtonDeleteProps = {
   style?: StyleProp<ViewStyle>;
 };
 
+/**
+ * Button that deletes all selected boards.
+ * Disabled if no boards are selected.
+ * On press, removes selected boards from the list and clears selection.
+ */
 export default function ButtonDelete({
   selected,
   setBoards,

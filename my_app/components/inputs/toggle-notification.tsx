@@ -8,6 +8,11 @@ export type ToggleNotificationProps = {
   label?: string;
 };
 
+/**
+ * Toggle switch for enabling/disabling notifications.
+ * Animated transition between on/off states.
+ * Calls onChange with the new value when toggled.
+ */
 export default function ToggleNotification({ value, onChange, label = "Notifications" }: ToggleNotificationProps) {
   // Dimensions derived from the Uiverse example
   const TRACK_WIDTH = 40; // ~3.5em at ~16px

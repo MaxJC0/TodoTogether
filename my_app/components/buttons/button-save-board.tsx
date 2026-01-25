@@ -23,6 +23,12 @@ type Props = {
   style?: StyleProp<ViewStyle>;
 };
 
+/**
+ * Button that saves board settings.
+ * Disabled if the board name is empty or only whitespace.
+ * On press, calls onSave with the current board data.
+ * Exposes a submit method via ref to trigger save programmatically.
+ */
 const ButtonSaveBoard = forwardRef<ButtonSaveBoardHandle, Props>(
   ({ name, members, notifications, color, onSave, label = 'Save', style }, ref) => {
     const trimmedName = useMemo(() => name?.trim() ?? '', [name]);

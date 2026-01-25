@@ -11,6 +11,11 @@ export type InputTimeProps = {
   minuteStep?: number; // granularity for wheel (default 1)
 };
 
+/**
+ * Time input component for selecting a time of day.
+ * Supports iOS, Android, and Web platforms.
+ * Calls onChange with the selected time in "HH:mm" format.
+ */
 export default function InputTime({ label, value, onChange, minuteStep = 1 }: InputTimeProps) {
   const supportedIntervals = [1, 2, 3, 4, 5, 6, 10, 12, 15] as const;
   type SupportedInterval = (typeof supportedIntervals)[number];

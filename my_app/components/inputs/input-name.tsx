@@ -6,6 +6,11 @@ export interface InputNameProps extends Omit<TextInputProps, 'onChangeText' | 'v
   onChangeText: (text: string) => void;
 }
 
+/**
+ * Text input component for entering a name.
+ * Styled with padding, border, and background color.
+ * Accepts value and onChangeText props for controlled input.
+ */
 const InputName = forwardRef<TextInput, InputNameProps>(
   ({ value, onChangeText, style, placeholder = 'Name', placeholderTextColor = '#aaa', ...rest }, ref) => {
     return (

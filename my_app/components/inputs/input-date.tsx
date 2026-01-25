@@ -14,6 +14,15 @@ export type InputDateProps =
   | { mode: "month-day"; label?: string; value: number; onChange: (v: number) => void }
   | { mode: "year-day"; label?: string; value: YearDay; onChange: (v: YearDay) => void };
 
+/**
+ * Input component for selecting dates in various modes:
+ * - "any": select any date (YYYY-MM-DD)
+ * - "week": select day of the week (0=Sun, 6=Sat)
+ * - "month-day": select day of the month (1-31)
+ * - "year-day": select month and day (month 0-11, day 1-31)
+ *
+ * Uses native date pickers on iOS/Android, and text input on web for "any" mode.
+ */
 export default function InputDate(props: InputDateProps) {
   switch (props.mode) {
     case "any":
@@ -36,6 +45,11 @@ const isIOS = Platform.OS === "ios";
 const isAndroid = Platform.OS === "android";
 const isWeb = Platform.OS === "web";
 
+/**
+ * Input component for selecting any date.
+ * On web, uses a text input with "YYYY-MM-DD" format.
+ * On iOS/Android, uses native date picker.
+ */
 function AnyDateInput({ label = "Date", value, onChange, placeholder = "YYYY-MM-DD" }: AnyProps) {
   const [pickerDate, setPickerDate] = useState(() => parseDateString(value));
   const [showAndroidPicker, setShowAndroidPicker] = useState(false);
@@ -94,6 +108,10 @@ function AnyDateInput({ label = "Date", value, onChange, placeholder = "YYYY-MM-
   );
 }
 
+/**
+ * Input component for selecting day of the week (0=Sun, 6=Sat).
+ * Uses native date picker on iOS/Android, with quick-select buttons for each day.
+ */
 function WeekDateInput({ label = "Day of week", value, onChange }: WeekProps) {
   const [pickerDate, setPickerDate] = useState(() => dateForDayOfWeek(value));
   const [showAndroidPicker, setShowAndroidPicker] = useState(false);
@@ -156,6 +174,10 @@ function WeekDateInput({ label = "Day of week", value, onChange }: WeekProps) {
   );
 }
 
+/**
+ * Input component for selecting day of the month (1-31).
+ * Uses native date picker on iOS/Android.
+ */
 function MonthDayInput({ label = "Day of month", value, onChange }: MonthDayProps) {
   const [pickerDate, setPickerDate] = useState(() => dateForMonthDay(value));
   const [showAndroidPicker, setShowAndroidPicker] = useState(false);
@@ -201,6 +223,10 @@ function MonthDayInput({ label = "Day of month", value, onChange }: MonthDayProp
   );
 }
 
+/**
+ * Input component for selecting month and day (year-day).
+ * Uses native date picker on iOS/Android.
+ */
 function YearDayInput({ label = "Month & day", value, onChange }: YearDayProps) {
   const [pickerDate, setPickerDate] = useState(() => dateForYearDay(value));
   const [showAndroidPicker, setShowAndroidPicker] = useState(false);

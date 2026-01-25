@@ -8,6 +8,11 @@ type Props = {
   delayLongPress?: number;
 };
 
+/**
+ * Button that serves as a drag handle.
+ * Calls onLongPress when long-pressed to initiate drag action.
+ * Displays a drag icon (☰).
+ */
 export default function ButtonDrag({
   onLongPress,
   accessibilityLabel,

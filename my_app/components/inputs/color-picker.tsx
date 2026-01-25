@@ -9,6 +9,12 @@ export type ColorPickerProps = {
   style?: StyleProp<ViewStyle>;
 };
 
+/**
+ * A horizontal color picker component.
+ * Displays a row of color swatches based on the provided colors array.
+ * Highlights the currently selected color.
+ * Calls onChange with the new color when a swatch is pressed.
+ */
 export default function ColorPicker({ colors, value, onChange, size = 28, style }: ColorPickerProps) {
   return (
     <View style={[styles.row, style] as StyleProp<ViewStyle>}>
