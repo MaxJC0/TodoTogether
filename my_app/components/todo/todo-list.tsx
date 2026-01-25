@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { ThemedText } from "@/components/shared/themed-text";
 import { ThemedView } from "@/components/shared/themed-view";
-
 import TodoRow from "@/components/todo/todo-row";
 import ButtonPlus from "@/components/buttons/button-add-board";
 import ButtonDeleteFinishedTodo from "@/components/buttons/button-delete-finished-todo";
@@ -19,6 +18,7 @@ export type TodoListProps = {
  * Displays a list of todo items with a header and footer.
  */
 export default function TodoList({ initialTitle }: TodoListProps) {
+  const [title, setTitle] = useState(initialTitle);
   type RepeatRule = {
     cycle: "day" | "week" | "biweek" | "month" | "year";
     time: string; // HH:mm 24h
@@ -242,9 +242,14 @@ export default function TodoList({ initialTitle }: TodoListProps) {
   return (
     <ThemedView style={styles.container}>
       <View style={styles.header}>
-        <ThemedText type="title" style={styles.title}>
-          {initialTitle}
-        </ThemedText>
+        <TextInput
+          value={title}
+          style={styles.input}
+          onChangeText={setTitle}
+          placeholder="List title"
+          underlineColorAndroid="transparent"
+          selectionColor="transparent"
+        />
       </View>
       <View style={styles.body}>
         <DraggableFlatList
@@ -319,4 +324,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 12,
   },
+  input: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 0,
+    margin: 0,
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    borderColor: "transparent",
+  }
 });
