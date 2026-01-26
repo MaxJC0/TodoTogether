@@ -29,7 +29,7 @@ export default function InputSearchBar({
       if (!inputRef.current?.isFocused()) return;
       const height = e?.endCoordinates?.height ?? 0;
       Animated.timing(translateY, {
-        toValue: -height,
+        toValue: -(height - insets.bottom - 36),
         duration: (Platform.OS === "ios" ? e?.duration : undefined) ?? 250,
         useNativeDriver: true,
       }).start();
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
   },
   inner: {
     paddingHorizontal: 24,
-    paddingVertical: 8,
     backgroundColor: "rgba(21, 23, 24, 1)",
   },
   input: {
