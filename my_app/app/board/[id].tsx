@@ -16,7 +16,7 @@ export default function BoardScreen() {
   const initialTitle =
     typeof name === "string" && name.length > 0 ? name : `Board ${id}`;
 
-  const [lists, setLists] = useState([0]);
+  const [lists, setLists] = useState([{ id: 0 }]);
   const [currentPage, setCurrentPage] = useState(0);
 
   const pagerRef = useRef<PagerView>(null);
@@ -48,9 +48,9 @@ export default function BoardScreen() {
           initialPage={0}
           onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
         >
-          {lists.map((listId) => (
-            <View key={`list-${listId}`} style={{ flex: 1 }}>
-              <TodoList initialTitle={`${initialTitle} - List ${listId + 1}`} />
+          {lists.map((list, index) => (
+            <View key={list.id} style={{ flex: 1 }}>
+              <TodoList initialTitle={`${initialTitle} - List ${index + 1}`} />
             </View>
           ))}
         </PagerView>
@@ -70,7 +70,7 @@ export default function BoardScreen() {
 
       <ButtonPlus
         onPress={() => {
-          setLists((prev) => [...prev, prev.length]);
+          setLists((prev) => [...prev, { id: Date.now() }]);
         }}
         label="Add TodoList"
         style={{ position: "absolute", bottom: 24, right: 24 }}
@@ -78,15 +78,11 @@ export default function BoardScreen() {
 
       <ButtonDelete
         onPress={() => {
-          setLists((prev) => {
-            if (prev.length <= 1) return prev;
-            const newLists = prev.slice(0, -1);
-            if (currentPage >= newLists.length) {
-              setCurrentPage(newLists.length - 1);
-              pagerRef.current?.setPage(newLists.length - 1);
-            }
-            return newLists;
-          });
+          if (lists.length <= 1) return;
+
+          const newLists = lists.filter((_, i) => i !== currentPage);
+
+          setLists(newLists);
         }}
         label="Delete TodoList"
         style={{ position: "absolute", bottom: 24, left: 24 }}
