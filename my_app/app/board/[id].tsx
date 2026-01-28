@@ -82,6 +82,8 @@ export default function BoardScreen() {
 
           const newLists = lists.filter((_, i) => i !== currentPage);
 
+          // alsd
+
           setLists(newLists);
         }}
         label="Delete TodoList"
