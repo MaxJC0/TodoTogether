@@ -32,6 +32,30 @@ module "boards_table" {
 }
 
 ########################################
+# Lambda Functions
+########################################
+module "boards_lambdas" {
+  source       = "./modules/lambda"
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.common_tags
+
+  functions = {
+    get = {
+      handler = "index.handler"
+      file    = "${path.module}/../lambdas/get"
+      policies = [
+        {
+          effect    = "Allow"
+          actions   = ["dynamodb:GetItem", "dynamodb:Query"]
+          resources = [module.boards_table.table_arn]
+        }
+      ]
+    }
+  }
+}
+
+########################################
 # HTTP API (universal)
 ########################################
 
@@ -42,5 +66,8 @@ module "api" {
   tags         = local.common_tags
 
   routes = {
+    "GET /boards" = {
+      lambda_arn = module.boards_lambdas.lambda_arns["get"].arn
+    }
   }
 }
