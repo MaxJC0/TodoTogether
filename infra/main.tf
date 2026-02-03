@@ -1,3 +1,6 @@
+########################################
+# Common tags
+########################################
 locals {
   common_tags = merge(
     var.tags,
@@ -7,6 +10,7 @@ locals {
     }
   )
 }
+
 ########################################
 # DynamoDB table for boards
 ########################################
@@ -25,4 +29,18 @@ module "boards_table" {
   ]
 
   tags = local.common_tags
+}
+
+########################################
+# HTTP API (universal)
+########################################
+
+module "api" {
+  source       = "./modules/api"
+  environment  = var.environment
+  project_name = var.project_name
+  tags         = local.common_tags
+
+  routes = {
+  }
 }
