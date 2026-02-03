@@ -1,4 +1,11 @@
 variable "region" {
-  type    = string
-  default = "eu-central-1"
+  type = string
+}
+
+variable "environment" {
+  type = string
+}
+
+variable "table_name" {
+  type = string
 }
