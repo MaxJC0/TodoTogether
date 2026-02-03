@@ -42,8 +42,8 @@ module "boards_lambdas" {
 
   functions = {
     get = {
-      handler = "index.handler"
-      file    = "${path.module}/../lambdas/get"
+      handler    = "index.handler"
+      source_dir = "${path.root}/../../lambdas/get"
       policies = [
         {
           effect    = "Allow"
@@ -67,7 +67,7 @@ module "api" {
 
   routes = {
     "GET /boards" = {
-      lambda_arn = module.boards_lambdas.lambda_arns["get"].arn
+      lambda_arn = module.boards_lambdas.functions["get"].arn
     }
   }
 }

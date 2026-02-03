@@ -3,7 +3,7 @@
 ########################################
 
 resource "aws_apigatewayv2_api" "this" {
-  name          = "${var.environment}-${var.project_name}http-api"
+  name          = "${var.environment}-${var.project_name}-http-api"
   protocol_type = "HTTP"
   tags          = var.tags
 }
