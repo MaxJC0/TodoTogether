@@ -11,5 +11,7 @@ resource "aws_dynamodb_table" "this" {
       type = attribute.value.type
     }
   }
+
+  tags = var.tags
 }
 

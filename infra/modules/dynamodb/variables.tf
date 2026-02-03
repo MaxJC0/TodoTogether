@@ -18,3 +18,7 @@ variable "billing_mode" {
   default = "PAY_PER_REQUEST"
 }
 
+variable "tags" {
+  type    = map(string)
+  default = {}
+}
