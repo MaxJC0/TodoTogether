@@ -1,27 +1,19 @@
 variable "region" {
-  type    = string
-  default = "eu-central-1"
+  type = string
 }
 
 variable "project_name" {
-  type    = string
-  default = "Todo-App"
+  type = string
 }
 
 variable "environment" {
-  type    = string
-  default = "dev"
+  type = string
 }
 
 variable "tags" {
   type = map(string)
-  default = {
-    Project     = "Todo-App"
-    Environment = "dev"
-  }
 }
 
 variable "table_name" {
-  type    = string
-  default = "boards"
+  type = string
 }
