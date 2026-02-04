@@ -41,13 +41,49 @@ module "boards_lambdas" {
   tags         = local.common_tags
 
   functions = {
-    get = {
+    getBoards = {
       handler    = "index.handler"
-      source_dir = "${path.root}/../../lambdas/get"
+      source_dir = "${path.root}/../../lambdas/getBoards"
       policies = [
         {
           effect    = "Allow"
-          actions   = ["dynamodb:GetItem", "dynamodb:Query"]
+          actions   = ["dynamodb:Scan", "dynamodb:Query"]
+          resources = [module.boards_table.table_arn]
+        }
+      ]
+    }
+
+    createBoard = {
+      handler    = "index.handler"
+      source_dir = "${path.root}/../../lambdas/createBoard"
+      policies = [
+        {
+          effect    = "Allow"
+          actions   = ["dynamodb:PutItem"]
+          resources = [module.boards_table.table_arn]
+        }
+      ]
+    }
+
+    updateBoard = {
+      handler    = "index.handler"
+      source_dir = "${path.root}/../../lambdas/updateBoard"
+      policies = [
+        {
+          effect    = "Allow"
+          actions   = ["dynamodb:UpdateItem"]
+          resources = [module.boards_table.table_arn]
+        }
+      ]
+    }
+
+    deleteBoard = {
+      handler    = "index.handler"
+      source_dir = "${path.root}/../../lambdas/deleteBoard"
+      policies = [
+        {
+          effect    = "Allow"
+          actions   = ["dynamodb:DeleteItem"]
           resources = [module.boards_table.table_arn]
         }
       ]
@@ -67,7 +103,19 @@ module "api" {
 
   routes = {
     "GET /boards" = {
-      lambda_arn = module.boards_lambdas.functions["get"].arn
+      lambda_arn = module.boards_lambdas.functions["getBoards"].arn
+    }
+
+    "POST /boards" = {
+      lambda_arn = module.boards_lambdas.functions["createBoard"].arn
+    }
+
+    "PUT /boards/{id}" = {
+      lambda_arn = module.boards_lambdas.functions["updateBoard"].arn
+    }
+
+    "DELETE /boards/{id}" = {
+      lambda_arn = module.boards_lambdas.functions["deleteBoard"].arn
     }
   }
 }
