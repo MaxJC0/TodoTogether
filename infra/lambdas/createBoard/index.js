@@ -1,12 +1,12 @@
-import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
-import { randomUUID } from "crypto";
+const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
+const { randomUUID } = require("crypto");
 
 const client = new DynamoDBClient({});
 const TABLE_NAME = process.env.BOARDS_TABLE_NAME;
 
 const VALID_COLORS = ["black", "blue", "green", "yellow", "red", "purple"];
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const id = randomUUID();

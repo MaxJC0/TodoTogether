@@ -24,3 +24,6 @@ variable "tags" {
   default = {}
 }
 
+variable "table_name" {
+  type = string
+}

@@ -40,6 +40,8 @@ module "boards_lambdas" {
   project_name = var.project_name
   tags         = local.common_tags
 
+  table_name = module.boards_table.table_name
+
   functions = {
     getBoards = {
       handler    = "index.handler"

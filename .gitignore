@@ -48,3 +48,4 @@ app-example
 terraform.tfstate
 terraform.tfstate.backup
 .terraform-lambda-*.zip
+tfplan

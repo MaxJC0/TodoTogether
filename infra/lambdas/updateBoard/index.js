@@ -1,12 +1,11 @@
-
-import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
+const { DynamoDBClient, UpdateItemCommand } = require("@aws-sdk/client-dynamodb");
 
 const client = new DynamoDBClient({});
 const TABLE_NAME = process.env.TABLE_NAME;
 
 const VALID_COLORS = ["black", "blue", "green", "yellow", "red", "purple"];
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   try {
     const id = event.pathParameters?.id;
     const body = JSON.parse(event.body || "{}");

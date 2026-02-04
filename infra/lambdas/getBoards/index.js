@@ -1,10 +1,9 @@
-
-import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+const { DynamoDBClient, ScanCommand } = require("@aws-sdk/client-dynamodb");
 
 const client = new DynamoDBClient({});
 const TABLE_NAME = process.env.BOARDS_TABLE_NAME;
 
-export const handler = async () => {
+exports.handler = async () => {
   try {
     const result = await client.send(
       new ScanCommand({

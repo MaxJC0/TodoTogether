@@ -72,6 +72,12 @@ resource "aws_lambda_function" "lambda" {
   filename         = data.archive_file.lambda_zip[each.key].output_path
   source_code_hash = data.archive_file.lambda_zip[each.key].output_base64sha256
 
+  environment {
+    variables = {
+      TABLE_NAME = var.table_name
+    }
+  }
+
   tags = var.tags
 }
 
