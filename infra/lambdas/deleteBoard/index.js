@@ -2,7 +2,7 @@
 const { DynamoDBClient, DeleteItemCommand } = require("@aws-sdk/client-dynamodb");
 
 const client = new DynamoDBClient({});
-const TABLE_NAME = process.env.BOARDS_TABLE_NAME;
+const TABLE_NAME = process.env.TABLE_NAME;
 
 exports.handler = async (event) => {
   try {

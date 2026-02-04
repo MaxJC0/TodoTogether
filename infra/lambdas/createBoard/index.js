@@ -2,7 +2,7 @@ const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const { randomUUID } = require("crypto");
 
 const client = new DynamoDBClient({});
-const TABLE_NAME = process.env.BOARDS_TABLE_NAME;
+const TABLE_NAME = process.env.TABLE_NAME;
 
 const VALID_COLORS = ["black", "blue", "green", "yellow", "red", "purple"];
 
