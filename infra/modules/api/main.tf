@@ -33,7 +33,17 @@ resource "aws_apigatewayv2_route" "routes" {
 }
 
 ########################################
-# Stage
+# CloudWatch Log Group for API Gateway
+########################################
+
+resource "aws_cloudwatch_log_group" "api_gw" {
+  name              = "/aws/api-gw/${var.environment}-${var.project_name}"
+  retention_in_days = 14
+  tags              = var.tags
+}
+
+########################################
+# Stage with Access Logging
 ########################################
 
 resource "aws_apigatewayv2_stage" "stage" {
@@ -41,5 +51,19 @@ resource "aws_apigatewayv2_stage" "stage" {
   name        = var.environment
   auto_deploy = true
   tags        = var.tags
-}
 
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gw.arn
+    format = jsonencode({
+      requestId   = "$context.requestId"
+      routeKey    = "$context.routeKey"
+      httpMethod  = "$context.httpMethod"
+      status      = "$context.status"
+      path        = "$context.path"
+      error       = "$context.error.message"
+      integration = "$context.integrationErrorMessage"
+      ip          = "$context.identity.sourceIp"
+      userAgent   = "$context.identity.userAgent"
+    })
+  }
+}
