@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { boardsApi } from "@/lib/api/boards";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ThemedText } from "@/components/shared/themed-text";
@@ -12,11 +10,17 @@ import InputSearchBar from "@/components/inputs/input-searchbar";
 
 type Board = { id: string; name: string };
 
-/**
- * Test screen displaying a list of boards with a search bar.
- * Allows searching and filtering the list of boards.
- */
 export default function TestScreen() {
+  useEffect(() => {
+    boardsApi.getBoards()
+      .then(data => {
+        console.log("Boards:", data);
+      })
+      .catch(err => {
+        console.log("API error:", err);
+      });
+  }, []);
+
   const [boards, setBoards] = useState<Board[]>([
     { id: "1", name: "Board Alpha" },
     { id: "2", name: "Board Beta" },
