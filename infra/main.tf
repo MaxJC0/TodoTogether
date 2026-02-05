@@ -35,10 +35,11 @@ module "boards_table" {
 # Lambda Functions
 ########################################
 module "boards_lambdas" {
-  source       = "./modules/lambda"
-  environment  = var.environment
-  project_name = var.project_name
-  tags         = local.common_tags
+  source            = "./modules/lambda"
+  environment       = var.environment
+  project_name      = var.project_name
+  api_execution_arn = module.api.api_execution_arn
+  tags              = local.common_tags
 
   table_name = module.boards_table.table_name
 

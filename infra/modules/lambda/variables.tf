@@ -27,3 +27,7 @@ variable "tags" {
 variable "table_name" {
   type = string
 }
+
+variable "api_execution_arn" {
+  type = string
+}

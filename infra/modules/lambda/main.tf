@@ -46,6 +46,23 @@ resource "aws_iam_role_policy" "lambda_policy" {
 }
 
 ########################################
+# Allow API Gateway to invoke Lambda
+########################################
+
+resource "aws_lambda_permission" "allow_apigw" {
+  for_each = var.functions
+
+  statement_id  = "AllowAPIGatewayInvoke-${each.key}"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda[each.key].function_name
+  principal     = "apigateway.amazonaws.com"
+
+  # API execution ARN must be passed into this module
+  source_arn = "${var.api_execution_arn}/*/*"
+}
+
+
+########################################
 # Package lambda code automatically
 ########################################
 
